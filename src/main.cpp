@@ -1,7 +1,5 @@
 #include "Game.h"
 
-#include <SFML/Graphics.hpp>
-
 using namespace std;
 
 bool running;
@@ -34,6 +32,9 @@ int main(int argc, char **argv)
 void initialise()
 {
 	window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Orangeyness");
+	
+	///HACKHACKHACK
+	gameScreens.push_back(new GameScreen());
 }
 
 //Clean up resources

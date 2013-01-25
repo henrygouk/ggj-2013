@@ -13,9 +13,9 @@ class GameScreen
 		std::vector<GameObject *> gameObjects;
 		
 		GameScreen();
-		virtual ~GameScreen();
-		virtual void update() = 0;
-		virtual void draw() = 0;
+		~GameScreen();
+		void update();
+		void draw();
 };
 
 #endif
