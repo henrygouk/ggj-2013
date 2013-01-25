@@ -17,6 +17,7 @@ PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 	
 	sprite.FlipX(true);
 	sprite.SetImage(images[0]);
+	sprite.SetCenter(img.GetWidth() / 2, img.GetHeight());
 }
 
 void PlayerObject::update()

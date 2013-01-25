@@ -78,4 +78,6 @@ void draw()
 	}
 	
 	window->Display();
+	
+	window->Capture().SaveToFile("screenshot.png");
 }
