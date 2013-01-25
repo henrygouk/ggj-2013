@@ -11,7 +11,11 @@ void PlayerObject::update()
 {
 	if(window->GetInput().IsKeyDown(Key::Right))
 	{
-		position.x += 1.0;
+		position.x += 5.0;
+	}
+	else if(window->GetInput().IsKeyDown(Key::Left))
+	{
+		position.x -= 5.0;
 	}
 }
 
