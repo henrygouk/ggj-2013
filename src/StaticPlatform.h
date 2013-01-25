@@ -9,7 +9,11 @@ class StaticPlatform : public GameObject
 		StaticPlatform(GameScreen* gs, sf::Vector2f pos, sf::Vector2f dimens);
 		void update();
 		void draw();
-
+		
+		float top();
+		float left();
+		float right();
+	
 		sf::Vector2f dimensions;
 };
 

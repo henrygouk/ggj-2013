@@ -1,3 +1,3 @@
 2
 player 50 50
-staticplatform 200 200 200 30
+staticplatform 10 200 300 30

@@ -11,6 +11,7 @@ class GameObject
 		virtual void draw() = 0;
 		
 		sf::Vector2f position;
+		sf::Vector2f velocity;
 		sf::Sprite sprite;
 		std::vector<sf::Image> images;
 		GameScreen* parent;

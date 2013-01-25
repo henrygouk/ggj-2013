@@ -14,6 +14,21 @@ void StaticPlatform::update()
 	//Static it up in here
 }
 
+float StaticPlatform::top() 
+{
+	return position.y;
+}
+
+float StaticPlatform::left()
+{
+	return position.x;
+}
+
+float StaticPlatform::right() 
+{
+	return position.x + dimensions.x;
+}
+
 void StaticPlatform::draw()
 {
 	Shape rect = Shape::Rectangle(position.x, position.y,

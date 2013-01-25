@@ -4,7 +4,7 @@ OBJS=$(subst .cpp,.o,$(SOURCES))
 LDFLAGS=
 LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system
 CXX=g++
-CXXFLAGS=-g
+CXXFLAGS=-g -std=c++11
 
 game: $(OBJS)
 	$(CXX) $(LDFLAGS) -o $(OUTPUT) $(OBJS) $(LDLIBS)
