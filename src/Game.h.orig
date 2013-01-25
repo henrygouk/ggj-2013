@@ -1,0 +1,27 @@
+#ifndef GAME_H
+#define GAME_H
+
+#include <cstddef>
+#include <vector>
+
+#include <SFML/Graphics.hpp>
+
+#include "GameScreen.h"
+#include "GameObject.h"
+#include "PlayerObject.h"
+<<<<<<< HEAD
+#include "Sprite.h"
+#include "ObjectFactory.h"
+=======
+>>>>>>> 5d86c8084041c0f372807af68b6990da013181c2
+
+extern bool running;
+extern std::vector<GameScreen *> gameScreens;
+extern sf::RenderWindow *window;
+
+void initialise();
+void cleanup();
+void update();
+void draw();
+
+#endif

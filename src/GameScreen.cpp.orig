@@ -1,10 +1,14 @@
 #include "Game.h"
 
-using namespace sf;
 GameScreen::GameScreen()
 {
 	enableUpdate = true;
 	enableDraw = true;
+<<<<<<< HEAD
+=======
+	
+	gameObjects.push_back(new PlayerObject(Vector2f(100.0, 100.0)));
+>>>>>>> 5d86c8084041c0f372807af68b6990da013181c2
 }
 
 GameScreen::~GameScreen()

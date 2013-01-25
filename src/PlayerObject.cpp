@@ -9,11 +9,14 @@ PlayerObject::PlayerObject(Vector2f pos)
 
 void PlayerObject::update()
 {
-	
+	if(window->GetInput().IsKeyDown(Key::Right))
+	{
+		position.x += 1.0;
+	}
 }
 
 void PlayerObject::draw()
 {
-	sf::Shape rect = sf::Shape::Rectangle(0, 0, 100, 100, sf::Color(255, 255, 255, 255));
-	window->Draw(rect);
+	sprite.SetPosition(position);
+	window->Draw(sprite);
 }
