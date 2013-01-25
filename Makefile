@@ -1,12 +1,15 @@
-SOURCES=$(shell find ./ -name src/*.cpp)
+SOURCES=$(shell find src/ -name *.cpp)
 OUTPUT=bin/game
 OBJS=$(subst .cpp,.o,$(SOURCES))
+LDFLAGS=
+LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system
+CXX=g++
 
 game: $(OBJS)
-	g++ $(LDFLAGS) -o $(OUTPUT) $(OBJS) $(LDLIBS)
+	$(CXX) $(LDFLAGS) -o $(OUTPUT) $(OBJS) $(LDLIBS)
 
-%.o: %.cpp
-	g++ $(CPPFLAGS) -c $<
+%.o: src/%.cpp
+	$(CXX) $(CPPFLAGS) -c $< -o $@
 
 clean:
 	rm $(OUTPUT) $(OBJS)

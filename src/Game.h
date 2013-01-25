@@ -4,10 +4,11 @@
 #include "GameScreen.h"
 #include "GameObject.h"
 
+#include <cstddef>
 #include <vector>
 
 extern bool running;
-std::vector<GameScreen *> gameScreens;
+extern std::vector<GameScreen *> gameScreens;
 
 void initialise();
 void cleanup();
