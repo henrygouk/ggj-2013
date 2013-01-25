@@ -1,11 +1,13 @@
 #include "Game.h"
 
+using namespace glm;
+
 GameScreen::GameScreen()
 {
 	enableUpdate = true;
 	enableDraw = true;
 	
-	gameObjects.push_back(new PlayerObject());
+	gameObjects.push_back(new PlayerObject(vec2(0.0, 0.0)));
 }
 
 GameScreen::~GameScreen()

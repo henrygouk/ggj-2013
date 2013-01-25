@@ -1,12 +1,12 @@
 #ifndef PLAYEROBJECT_H
 #define PLAYEROBJECT_H
 
-#include "GameObject.h"
+#include "Game.h"
 
 class PlayerObject : public GameObject
 {
 	public:
-		PlayerObject(vec3 pos);
+		PlayerObject(glm::vec2 pos);
 		void update();
 		void draw();
 };

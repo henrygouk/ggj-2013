@@ -1,15 +1,15 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "GameScreen.h"
-#include "GameObject.h"
-#include "PlayerObject.h"
+#include <cstddef>
+#include <vector>
 
 #include <SFML/Graphics.hpp>
 #include <glm/glm.hpp>
 
-#include <cstddef>
-#include <vector>
+#include "GameScreen.h"
+#include "GameObject.h"
+#include "PlayerObject.h"
 
 extern bool running;
 extern std::vector<GameScreen *> gameScreens;
