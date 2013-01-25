@@ -10,7 +10,7 @@ class GameObject
 		virtual void update() = 0;
 		virtual void draw() = 0;
 		
-		glm::vec2 position;
+		sf::Vector2f position;
 		sf::Sprite sprite;
 };
 

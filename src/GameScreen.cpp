@@ -1,13 +1,13 @@
 #include "Game.h"
 
-using namespace glm;
+using namespace sf;
 
 GameScreen::GameScreen()
 {
 	enableUpdate = true;
 	enableDraw = true;
 	
-	gameObjects.push_back(new PlayerObject(vec2(0.0, 0.0)));
+	gameObjects.push_back(new PlayerObject(Vector2f(0.0, 0.0)));
 }
 
 GameScreen::~GameScreen()

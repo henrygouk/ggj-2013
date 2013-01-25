@@ -1,8 +1,8 @@
 #include "Game.h"
 
-using namespace glm;
+using namespace sf;
 
-PlayerObject::PlayerObject(vec2 pos)
+PlayerObject::PlayerObject(Vector2f pos)
 {
 	position = pos;
 }

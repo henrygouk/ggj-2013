@@ -6,7 +6,7 @@
 class PlayerObject : public GameObject
 {
 	public:
-		PlayerObject(glm::vec2 pos);
+		PlayerObject(sf::Vector2f pos);
 		void update();
 		void draw();
 };
