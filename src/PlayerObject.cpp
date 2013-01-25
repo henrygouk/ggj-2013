@@ -2,7 +2,7 @@
 
 void PlayerObject::update()
 {
-
+	
 }
 
 void PlayerObject::draw()

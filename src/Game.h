@@ -6,6 +6,7 @@
 #include "PlayerObject.h"
 
 #include <SFML/Graphics.hpp>
+#include <glm/glm.hpp>
 
 #include <cstddef>
 #include <vector>
