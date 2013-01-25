@@ -9,6 +9,7 @@ class PlayerObject : public GameObject
 		PlayerObject(sf::Vector2f pos);
 		void update();
 		void draw();
+		
 };
 
 #endif

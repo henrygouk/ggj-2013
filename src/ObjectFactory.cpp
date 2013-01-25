@@ -32,7 +32,14 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 	
 		if (strcmp("player", name) == 0) {
 			gs->gameObjects.push_back(new PlayerObject(Vector2f(x, y)));		
-			cout << name << endl;
+			continue;
+			}
+
+		if (strcmp("staticplatform", name) == 0) {
+			int width, height;
+			fIn >> width;
+			fIn >> height;
+			gs->gameObjects.push_back(new StaticPlatform(Vector2f(x, y), Vector2f(width, height)));
 			continue;
 			}
 		}
