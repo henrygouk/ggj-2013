@@ -32,6 +32,7 @@ int main(int argc, char **argv)
 void initialise()
 {
 	window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Orangeyness");
+	window->UseVerticalSync(true);
 	
 	///HACKHACKHACK
 	gameScreens.push_back(new GameScreen());

@@ -12,6 +12,7 @@ class GameObject
 		
 		sf::Vector2f position;
 		sf::Sprite sprite;
+		std::vector<sf::Image> images;
 };
 
 #endif
