@@ -9,6 +9,7 @@ class GameObject
 		virtual void draw() = 0;
 		
 		vec3 position;
+		sf::Sprite sprite;
 };
 
 #endif

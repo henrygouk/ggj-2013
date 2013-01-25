@@ -6,6 +6,7 @@
 class PlayerObject : public GameObject
 {
 	public:
+		PlayerObject(vec3 pos);
 		void update();
 		void draw();
 };
