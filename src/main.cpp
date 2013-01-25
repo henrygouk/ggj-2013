@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "ObjectFactory.h"
 
 using namespace std;
 
@@ -35,6 +36,9 @@ void initialise()
 	
 	///HACKHACKHACK
 	gameScreens.push_back(new GameScreen());
+
+	string str ("assets/lvl1.txt");
+	ObjectFactory::loadFile(str, gameScreens[0]);
 }
 
 //Clean up resources
@@ -49,7 +53,7 @@ void update()
 {
 	//Process events
 	sf::Event event;
-	
+
 	while(window->GetEvent(event))
 	{
 		if(event.Type == sf::Event::Closed)
