@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 	initialise();
 	
 	//The game loop
-	while(true)
+	while(running)
 	{
 		//Update and draw
 		update();
@@ -64,8 +64,12 @@ void update()
 //Draw the world
 void draw()
 {
+	window->Clear();
+
 	for(size_t i = 0; i < gameScreens.size(); i++)
 	{
 		gameScreens[i]->draw();
 	}
+	
+	window->Display();
 }
