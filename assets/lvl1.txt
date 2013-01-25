@@ -1,2 +1,2 @@
 1
-player 50 50
+player 500 50

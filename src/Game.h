@@ -9,7 +9,6 @@
 #include "GameScreen.h"
 #include "GameObject.h"
 #include "PlayerObject.h"
-#include "Sprite.h"
 #include "ObjectFactory.h"
 
 extern bool running;
