@@ -1,8 +1,0 @@
-<<<<<<< HEAD
-2
-player 50 50
-staticplatform 200 200 200 30
-=======
-1
-player 500 50
->>>>>>> 31179f9ac61f711b1f0ea542e141fe341088073c

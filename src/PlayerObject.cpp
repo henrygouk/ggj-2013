@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #define GRAVITY 9.81
+#define JUMP_STRENGTH -20
 
 using namespace sf;
 
@@ -22,6 +23,7 @@ PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 
 void PlayerObject::update()
 {
+
 	if(window->GetInput().IsKeyDown(Key::Right))
 	{
 		position.x += 5.0;
@@ -35,7 +37,13 @@ void PlayerObject::update()
 		sprite.FlipX(false);
 	}
 
-	velocity.y += GRAVITY * 1.0/60.0;
+	if(window->GetInput().IsKeyDown(Key::Space)) 
+	{
+		if (velocity.y == 0) 
+			velocity.y += JUMP_STRENGTH;
+	}
+
+	velocity.y += GRAVITY * window->GetFrameTime();
 
 	for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
 	{
@@ -45,14 +53,14 @@ void PlayerObject::update()
 		if (position.x + sprite.GetImage()->GetWidth() / 2 < obj->left()) continue;
 		if (position.x - sprite.GetImage()->GetWidth() / 2 > obj->right()) continue;
 
-		if (position.y <= obj->top() && position.y + velocity.y >= obj->top()) 
+		if (position.y <= obj->top() && position.y + velocity.y * window->GetFrameTime() >= obj->top()) 
 		{
 			position.y = obj->top();
 			velocity.y = 0;
 		}
 	}
 
-	position.y += velocity.y;
+	position.y += velocity.y * window->GetFrameTime();
 }
 
 void PlayerObject::draw()

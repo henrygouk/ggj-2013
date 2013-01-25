@@ -1,3 +1,0 @@
-2
-player 50 50
-staticplatform 200 200 200 30
