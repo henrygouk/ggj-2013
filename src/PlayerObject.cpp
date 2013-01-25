@@ -2,8 +2,9 @@
 
 using namespace sf;
 
-PlayerObject::PlayerObject(Vector2f pos)
+PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 {
+	parent = gs;
 	position = pos;
 	
 	sf::Image img;

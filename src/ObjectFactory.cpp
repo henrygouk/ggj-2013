@@ -31,7 +31,7 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 		fIn >> y;
 	
 		if (strcmp("player", name) == 0) {
-			gs->gameObjects.push_back(new PlayerObject(Vector2f(x, y)));		
+			gs->gameObjects.push_back(new PlayerObject(gs, Vector2f(x, y)));		
 			continue;
 			}
 
@@ -39,7 +39,7 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			int width, height;
 			fIn >> width;
 			fIn >> height;
-			gs->gameObjects.push_back(new StaticPlatform(Vector2f(x, y), Vector2f(width, height)));
+			gs->gameObjects.push_back(new StaticPlatform(gs, Vector2f(x, y), Vector2f(width, height)));
 			continue;
 			}
 		}

@@ -6,7 +6,7 @@
 class PlayerObject : public GameObject
 {
 	public:
-		PlayerObject(sf::Vector2f pos);
+		PlayerObject(GameScreen* gs, sf::Vector2f pos);
 		void update();
 		void draw();
 		

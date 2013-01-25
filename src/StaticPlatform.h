@@ -6,7 +6,7 @@
 class StaticPlatform : public GameObject
 {
 	public:
-		StaticPlatform(sf::Vector2f pos, sf::Vector2f dimens);
+		StaticPlatform(GameScreen* gs, sf::Vector2f pos, sf::Vector2f dimens);
 		void update();
 		void draw();
 

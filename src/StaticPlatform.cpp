@@ -2,8 +2,9 @@
 
 using namespace sf;
 
-StaticPlatform::StaticPlatform(Vector2f pos, Vector2f dimens)
+StaticPlatform::StaticPlatform(GameScreen* gs, Vector2f pos, Vector2f dimens)
 {
+ 	parent = gs;
 	position = pos;
 	dimensions = dimens;
 }
