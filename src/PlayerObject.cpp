@@ -1,5 +1,10 @@
 #include "Game.h"
 
+PlayerObject::PlayerObject(vec3 pos)
+{
+	position = pos;
+}
+
 void PlayerObject::update()
 {
 	

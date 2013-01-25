@@ -7,6 +7,8 @@ class GameObject
 		virtual ~GameObject() = 0;
 		virtual void update() = 0;
 		virtual void draw() = 0;
+		
+		vec3 position;
 };
 
 #endif
