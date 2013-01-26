@@ -5,7 +5,7 @@
 #define BACK_INDEX 1
 #define RECT_WIDTH 389.0f
 #define RECT_HEIGHT 15.0f
-#define HEALTH_ANIMATE_SPEED 15
+#define HEALTH_ANIMATE_SPEED 50
 //Animate speed in % per second
 
 #include <sstream>
