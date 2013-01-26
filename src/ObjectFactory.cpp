@@ -35,6 +35,21 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			continue;
 			}
 
+		if (strcmp("healthbar", name) == 0) {
+			int health;
+			fIn >> health;
+			gs->gameObjects.push_back(HealthBar::createHealthBar(gs, Vector2f(x, y), health));
+			continue;
+			}
+			
+		if (strcmp("enemy", name) == 0) {
+			int x2, y2;
+			fIn >> x2;
+			fIn >> y2;
+			gs->gameObjects.push_back(new Enemy(gs, Vector2f(x, y), Vector2f(x2, y2)));
+			continue;
+			}
+
 		if (strcmp("movingplatform", name) == 0) {
 			int width, height;
 			float xend, yend, speed;
@@ -53,14 +68,6 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			fIn >> width;
 			fIn >> height;
 			gs->gameObjects.push_back(new StaticPlatform(gs, Vector2f(x, y), Vector2f(width, height)));
-			continue;
-			}
-			
-		if (strcmp("enemy", name) == 0) {
-			int x2, y2;
-			fIn >> x2;
-			fIn >> y2;
-			gs->gameObjects.push_back(new Enemy(gs, Vector2f(x, y), Vector2f(x2, y2)));
 			continue;
 			}
 		}
