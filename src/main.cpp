@@ -2,6 +2,7 @@
 #include "ObjectFactory.h"
 
 using namespace std;
+using namespace sf;
 
 bool running;
 vector<GameScreen *> gameScreens;
@@ -32,8 +33,8 @@ int main(int argc, char **argv)
 //Initialise things that need something done at startup
 void initialise()
 {
-	window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Orangeyness");
-	window->UseVerticalSync(true);
+	window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Orangeyness", Style::Fullscreen);
+//	window->UseVerticalSync(true);
 	
 	///HACKHACKHACK
 	gameScreens.push_back(new GameScreen());
@@ -57,7 +58,7 @@ void update()
 
 	while(window->GetEvent(event))
 	{
-		if(event.Type == sf::Event::Closed)
+		if(event.Type == Event::Closed || (event.Type == Event::KeyPressed && event.Key.Code == Key::Escape))
 			running = false;
 	}
 

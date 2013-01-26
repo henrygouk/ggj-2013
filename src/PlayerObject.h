@@ -9,8 +9,6 @@ class PlayerObject : public GameObject
 		PlayerObject(GameScreen* gs, sf::Vector2f pos);
 		void update();
 		void draw();
-
-		
 };
 
 #endif

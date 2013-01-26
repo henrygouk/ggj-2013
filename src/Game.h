@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <algorithm>
 #include <cstddef>
 #include <vector>
 
@@ -10,6 +11,7 @@
 #include "GameObject.h"
 #include "PlayerObject.h"
 #include "StaticPlatform.h"
+#include "Enemy.h"
 #include "ObjectFactory.h"
 
 extern bool running;

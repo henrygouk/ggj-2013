@@ -31,8 +31,8 @@ float StaticPlatform::right()
 
 void StaticPlatform::draw()
 {
-	Shape rect = Shape::Rectangle(position.x, position.y,
-								  position.x + dimensions.x,
+	Shape rect = Shape::Rectangle((position.x - parent->cameraPosition.x), position.y,
+								  (position.x - parent->cameraPosition.x) + dimensions.x,
 								  position.y + dimensions.y,
 								  Color(255, 255, 255, 255));
 

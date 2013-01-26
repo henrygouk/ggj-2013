@@ -25,6 +25,8 @@ void GameScreen::update()
 			gameObjects[i]->update();
 		}
 	}
+	
+	cameraPosition.x = max(cameraPosition.x, 0.0f);
 }
 
 void GameScreen::draw()

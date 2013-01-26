@@ -1,7 +1,9 @@
 #include "Game.h"
 
-#define GRAVITY 9.81
-#define JUMP_STRENGTH -20
+#define GRAVITY 4.81f
+#define JUMP_STRENGTH -2.0f
+#define SPEED 200.0f
+#define DELTA_TIME (float)window->GetFrameTime()
 
 using namespace sf;
 
@@ -24,48 +26,79 @@ PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 void PlayerObject::update()
 {
 
-	if(window->GetInput().IsKeyDown(Key::Right))
+	if(window->GetInput().IsKeyDown(Key::Right) || window->GetInput().IsKeyDown(Key::D))
 	{
-		position.x += 5.0;
+		velocity.x += 3.0 * SPEED * DELTA_TIME;
+		velocity.x = min(velocity.x, SPEED);
 		
 		sprite.FlipX(true);
 	}
-	else if(window->GetInput().IsKeyDown(Key::Left))
+	else if(window->GetInput().IsKeyDown(Key::Left) || window->GetInput().IsKeyDown(Key::A))
 	{
-		position.x -= 5.0;
+		velocity.x -= 3.0 * SPEED * DELTA_TIME;
+		velocity.x = max(velocity.x, -SPEED);
 		
 		sprite.FlipX(false);
 	}
-
-	if(window->GetInput().IsKeyDown(Key::Space)) 
+	else
 	{
-		if (velocity.y == 0) 
-			velocity.y += JUMP_STRENGTH;
+		if(velocity.x < 0.0)
+		{
+			velocity.x += 2.0 * SPEED * DELTA_TIME;
+			velocity.x = min(velocity.x, SPEED);
+			
+			if(velocity.x > 0.0)
+			{
+				velocity.x = 0.0;
+			}
+		}
+		else if(velocity.x > 0.0)
+		{
+			velocity.x -= 2.0 * SPEED * DELTA_TIME;
+
+			if(velocity.x < 0.0)
+			{
+				velocity.x = 0.0;
+			}
+		}
 	}
 
-	velocity.y += GRAVITY * window->GetFrameTime();
+	if(window->GetInput().IsKeyDown(Key::Up) || window->GetInput().IsKeyDown(Key::W)) 
+	{
+		if (velocity.y == 0.0)
+			velocity.y += JUMP_STRENGTH * SPEED;
+	}
+	else if(window->GetInput().IsKeyDown(Key::Down) || window->GetInput().IsKeyDown(Key::S))
+	{
+		if (velocity.y == 0.0)
+			position.y += 1.0;
+	}
+
+	velocity.y += GRAVITY * SPEED * DELTA_TIME;
 
 	for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
 	{
 		StaticPlatform* obj = dynamic_cast<StaticPlatform*>(*it);
 		if (!obj) continue;
 
-		if (position.x + sprite.GetImage()->GetWidth() / 2 < obj->left()) continue;
-		if (position.x - sprite.GetImage()->GetWidth() / 2 > obj->right()) continue;
+		if (position.x + sprite.GetImage()->GetWidth() / 4 < obj->left()) continue;
+		if (position.x - sprite.GetImage()->GetWidth() / 4 > obj->right()) continue;
 
-		if (position.y <= obj->top() && position.y + velocity.y * window->GetFrameTime() >= obj->top()) 
+		if (position.y <= obj->top() && position.y + velocity.y * DELTA_TIME >= obj->top()) 
 		{
 			position.y = obj->top();
 			velocity.y = 0;
 		}
 	}
 
-	position.y += velocity.y * window->GetFrameTime();
+	position += velocity * DELTA_TIME;
+	
+	parent->cameraPosition.x = position.x - (float)window->GetWidth() / 2.0f;
 }
 
 void PlayerObject::draw()
 {
 	sprite.SetImage(images[0]);
-	sprite.SetPosition(position);
+	sprite.SetPosition(position - parent->cameraPosition);
 	window->Draw(sprite);
 }

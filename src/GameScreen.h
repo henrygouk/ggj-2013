@@ -11,6 +11,7 @@ class GameScreen
 		bool enableUpdate;
 		bool enableDraw;
 		std::vector<GameObject *> gameObjects;
+		sf::Vector2f cameraPosition;
 		
 		GameScreen();
 		~GameScreen();
