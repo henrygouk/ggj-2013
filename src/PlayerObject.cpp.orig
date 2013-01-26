@@ -51,13 +51,16 @@ PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 
 	boundingBoxXoffset = 0;
 	boundingBoxSize = Vector2f(BOUNDINGBOX_WIDTH, BOUNDINGBOX_HEIGHT);
-
+<<<<<<< HEAD
 	
 	shootingFlag = false;
 	shootTimer.Reset();
+=======
+
 	ctrlDown = false;
 	facingDirection = FACING_RIGHT;
 	jumpCoolDown = 0.0;
+>>>>>>> 0417780f028fcfaf89bc56edd4d53d243ba9b9d5
 }
 
 void PlayerObject::update()
