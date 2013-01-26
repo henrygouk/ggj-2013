@@ -38,12 +38,16 @@ PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 		images.push_back(img);
 	}
 	
+	flipped = true;
 	sprite.FlipX(true);
 	sprite.SetImage(images[imageIndex]);
 	sprite.SetCenter(images[imageIndex].GetWidth() / 2, images[imageIndex].GetHeight());
 
 	boundingBoxXoffset = 0;
 	boundingBoxSize = Vector2f(BOUNDINGBOX_WIDTH, BOUNDINGBOX_HEIGHT);
+	
+	shootingFlag = false;
+	shootTimer.Reset();
 }
 
 void PlayerObject::update()
@@ -56,6 +60,7 @@ void PlayerObject::update()
 		
 		boundingBoxXoffset = BOUNDINGBOX_RIGHT_OFFSET;
 		sprite.FlipX(true);
+		flipped = true;
 	}
 	else if(window->GetInput().IsKeyDown(Key::Left) || window->GetInput().IsKeyDown(Key::A))
 	{
@@ -64,6 +69,7 @@ void PlayerObject::update()
 		
 		boundingBoxXoffset = BOUNDINGBOX_LEFT_OFFSET;
 		sprite.FlipX(false);
+		flipped = false;
 	}
 	else
 	{
@@ -86,6 +92,23 @@ void PlayerObject::update()
 				velocity.x = 0.0;
 			}
 		}
+	}
+	
+	if(!shootingFlag && window->GetInput().IsKeyDown(Key::Space))
+	{
+		shootingFlag = true;
+		shootTimer.Reset();
+	}
+	else if(shootingFlag && !window->GetInput().IsKeyDown(Key::Space))
+	{
+		shootingFlag = false;
+		float t = min(shootTimer.GetElapsedTime(), 1.0f);
+		parent->gameObjects.push_back(new BloodSquirt(parent, position + Vector2f(flipped ? 20.0 : -20.0, -55.0 - 8.0 * cosf(min(2.0 * M_PI, (2.5f * M_PI * (float)imageIndex) / (float)ANIMATION_IMAGE_COUNT))), t, flipped));
+	}
+	
+	if(shootingFlag && shootTimer.GetElapsedTime() < 1.0f)
+	{
+		HealthBar::getHealthBar()->addHealth(-30.0 * DELTA_TIME);
 	}
 
 	if(window->GetInput().IsKeyDown(Key::Up) || window->GetInput().IsKeyDown(Key::W)) 

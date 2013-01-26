@@ -2,7 +2,9 @@
 #define GAME_H
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
+#include <iostream>
 #include <vector>
 
 #include <SFML/Graphics.hpp>
@@ -17,6 +19,7 @@
 #include "Background.h"
 #include "ObjectFactory.h"
 #include "HealthBar.h"
+#include "BloodSquirt.h"
 
 #define GRAVITY 4.81f
 #define JUMP_STRENGTH -2.5f
