@@ -96,7 +96,7 @@ void HealthBar::draw()
 	float healthPercent = currentHealth / maxHealth;
 
 	Shape rect = Shape::Rectangle(rectOrigin.x, rectOrigin.y, rectOrigin.x+RECT_WIDTH*healthPercent, rectOrigin.y+RECT_HEIGHT,
-								  Color(143, 0, 4, 255));
+								  Color(163, 0, 4, 255));
 
 	window->Draw(rect);
 

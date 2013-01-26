@@ -13,6 +13,11 @@ class PlayerObject : public GameObject
 		float boundingBoxXoffset;
 		sf::Vector2f boundingBoxSize;
 
+		//Burst Jump shit
+		int facingDirection;
+		bool ctrlDown;
+		float jumpCoolDown;
+
 		//Animations shit
 		int imageIndex;
 		int imageCount;

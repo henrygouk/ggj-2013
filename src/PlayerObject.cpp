@@ -11,6 +11,12 @@
 #define BOUNDINGBOX_LEFT_OFFSET 20
 #define BOUNDINGBOX_RIGHT_OFFSET 0
 
+#define FACING_RIGHT -1 
+#define FACING_LEFT 1
+
+#define FART_JUMP_CD 1.2
+
+#include <iostream>
 #include <sstream>
 
 using namespace std;
@@ -44,33 +50,46 @@ PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 
 	boundingBoxXoffset = 0;
 	boundingBoxSize = Vector2f(BOUNDINGBOX_WIDTH, BOUNDINGBOX_HEIGHT);
+
+	ctrlDown = false;
+	facingDirection = FACING_RIGHT;
+	jumpCoolDown = 0.0;
 }
 
 void PlayerObject::update()
 {
-
+	bool moveKey = false;
 	if(window->GetInput().IsKeyDown(Key::Right) || window->GetInput().IsKeyDown(Key::D))
 	{
-		velocity.x += 3.0 * SPEED * DELTA_TIME;
-		velocity.x = min(velocity.x, SPEED);
+		if (velocity.x < SPEED)
+			velocity.x += 3.0 * SPEED * DELTA_TIME;
 		
+		moveKey = true;
+		facingDirection = FACING_RIGHT;
 		boundingBoxXoffset = BOUNDINGBOX_RIGHT_OFFSET;
 		sprite.FlipX(true);
 	}
 	else if(window->GetInput().IsKeyDown(Key::Left) || window->GetInput().IsKeyDown(Key::A))
 	{
-		velocity.x -= 3.0 * SPEED * DELTA_TIME;
-		velocity.x = max(velocity.x, -SPEED);
+		if (velocity.x > -SPEED)
+			velocity.x -= 3.0 * SPEED * DELTA_TIME;
 		
+		moveKey = true;
+		facingDirection = FACING_LEFT;
 		boundingBoxXoffset = BOUNDINGBOX_LEFT_OFFSET;
 		sprite.FlipX(false);
 	}
-	else
+
+	float asbVx = velocity.x > 0 ? velocity.x : -velocity.x; 
+	if ((!moveKey && velocity.y == 0) || asbVx > SPEED * 1.2)
 	{
+		float frictionMulti = 1.0f;
+
+		if (asbVx > SPEED) frictionMulti = 1 + (asbVx / SPEED) * 2;
+
 		if(velocity.x < 0.0)
 		{
-			velocity.x += FRICTION * SPEED * DELTA_TIME;
-			velocity.x = min(velocity.x, SPEED);
+			velocity.x += frictionMulti * FRICTION * SPEED * DELTA_TIME;
 			
 			if(velocity.x > 0.0)
 			{
@@ -79,7 +98,7 @@ void PlayerObject::update()
 		}
 		else if(velocity.x > 0.0)
 		{
-			velocity.x -= FRICTION * SPEED * DELTA_TIME;
+			velocity.x -= frictionMulti * FRICTION * SPEED * DELTA_TIME;
 
 			if(velocity.x < 0.0)
 			{
@@ -98,6 +117,31 @@ void PlayerObject::update()
 		if (velocity.y == 0.0 && position.y < 500.0)
 			position.y += 1.0;
 	}
+
+
+	if (window->GetInput().IsKeyDown(Key::LControl) && !ctrlDown && jumpCoolDown <= 0) 
+	{
+		if (velocity.y == 0) 
+		{
+			velocity.x += 10.0 * JUMP_STRENGTH * SPEED * facingDirection;
+		}
+			else
+		{
+			velocity.x += 1 * JUMP_STRENGTH * SPEED * facingDirection;
+			velocity.y += 1 * JUMP_STRENGTH * SPEED;
+
+			float dir = facingDirection < 0 ? 200 : 160;
+			parent->gameObjects.push_back(new BloodFart(parent, this, Vector2f(65*facingDirection, -47), -facingDirection, dir));
+		}
+
+		parent->gameObjects.push_back(new BloodFart(parent, this, Vector2f(55*facingDirection, -32), facingDirection, 0));
+
+		jumpCoolDown = FART_JUMP_CD;
+		HealthBar::getHealthBar()->addHealth(-10);
+	}
+
+	ctrlDown = window->GetInput().IsKeyDown(Key::LControl);
+	if (jumpCoolDown > 0.0) jumpCoolDown -= 1 * DELTA_TIME;
 
 	velocity.y += GRAVITY * SPEED * DELTA_TIME;
 

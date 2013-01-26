@@ -17,6 +17,7 @@
 #include "Background.h"
 #include "ObjectFactory.h"
 #include "HealthBar.h"
+#include "BloodFart.h"
 
 #define GRAVITY 4.81f
 #define JUMP_STRENGTH -2.5f
