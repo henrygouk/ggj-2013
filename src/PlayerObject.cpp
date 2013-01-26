@@ -184,21 +184,45 @@ void PlayerObject::update()
 	{
 		Platform* obj = dynamic_cast<Platform*>(*it);
 
-		if (!obj) continue;
-
-		if (boundingBoxLeft() < obj->left()) continue;
-		if (boundingBoxRight() > obj->right()) continue;
-
-		if (boundingBoxBottom() <= obj->top() && boundingBoxBottom() + velocity.y * DELTA_TIME >= obj->top()) 
+		if (obj)
 		{
-			snapped = obj;
-			position.y = obj->top();
+			if (boundingBoxLeft() < obj->left()) continue;
+			if (boundingBoxRight() > obj->right()) continue;
 
-			if (velocity.y > 20 * GRAVITY * SPEED * DELTA_TIME)
-				parent->gameObjects.push_back(new BloodContact(parent, snapped, Vector2f(boundingBoxHMiddle(), boundingBoxBottom()), 4));
+			if (boundingBoxBottom() <= obj->top() && boundingBoxBottom() + velocity.y * DELTA_TIME >= obj->top()) 
+			{
+				snapped = obj;
+				position.y = obj->top();
 
-			velocity.y = 0;
-			break;
+				if (velocity.y > 20 * GRAVITY * SPEED * DELTA_TIME)
+					parent->gameObjects.push_back(new BloodContact(parent, snapped, Vector2f(boundingBoxHMiddle(), boundingBoxBottom()), 4));
+
+				velocity.y = 0;
+			}
+			
+			continue;
+		}
+		
+		HealthPack *hp = dynamic_cast<HealthPack *>(*it);
+		
+		if(hp)
+		{
+			Vector2f ab = hp->position - (position - Vector2f(0.0f, 35.0f));
+			
+			if(sqrtf(dot(ab, ab)) < 30.0f)
+			{
+				HealthBar::getHealthBar()->addHealth(20.0);
+				
+				for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
+				{
+					if (*it == hp) 
+					{
+						parent->gameObjects.erase(it);
+						delete hp;
+						break;
+					}
+				}
+			}
 		}
 	}
 

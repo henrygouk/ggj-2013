@@ -91,7 +91,7 @@ void HealthBar::update()
 			currentHealth += healthSpeed;
 	}
 	
-	currentHealth = max(0.0f, currentHealth);
+	currentHealth = min(max(0.0f, currentHealth), 100.0f);
 }
 
 void HealthBar::draw()
