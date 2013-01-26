@@ -82,6 +82,8 @@ void HealthBar::update()
 		else
 			currentHealth += healthSpeed;
 	}
+	
+	currentHealth = max(0.0f, currentHealth);
 }
 
 void HealthBar::draw()

@@ -90,14 +90,12 @@ void PlayerObject::update()
 
 	if(window->GetInput().IsKeyDown(Key::Up) || window->GetInput().IsKeyDown(Key::W)) 
 	{
-		HealthBar::getHealthBar()->addHealth(-10);
-
 		if (velocity.y == 0.0)
 			velocity.y += JUMP_STRENGTH * SPEED;
 	}
 	else if(window->GetInput().IsKeyDown(Key::Down) || window->GetInput().IsKeyDown(Key::S))
 	{
-		if (velocity.y == 0.0)
+		if (velocity.y == 0.0 && position.y < 500.0)
 			position.y += 1.0;
 	}
 
@@ -138,6 +136,8 @@ void PlayerObject::update()
 		imageAnimationPos = 0;
 		if (imageIndex++ >= imageCount-1) imageIndex = 0;
 	}
+	
+	position.x = max(position.x, 0.0f);
 }
 
 void PlayerObject::draw()
@@ -145,16 +145,6 @@ void PlayerObject::draw()
 	sprite.SetImage(images[imageIndex]);
 	sprite.SetPosition(parent->normaliseCoords(position));
 	window->Draw(sprite);
-
-	/*
-	Vector2f topleft = parent->normaliseCoords(Vector2f(boundingBoxLeft(), boundingBoxTop()));
-	Vector2f bottomright = parent->normaliseCoords(Vector2f(boundingBoxRight(), boundingBoxBottom()));
-
-	Shape rect = Shape::Rectangle(topleft.x, topleft.y, bottomright.x, bottomright.y, Color(255, 0, 0, 255));
-
-	window->Draw(rect);
-	*/
-	
 }
 
 inline float PlayerObject::boundingBoxLeft() { return position.x + boundingBoxXoffset; } 

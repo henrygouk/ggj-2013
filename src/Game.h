@@ -19,7 +19,7 @@
 #include "HealthBar.h"
 
 #define GRAVITY 4.81f
-#define JUMP_STRENGTH -2.0f
+#define JUMP_STRENGTH -2.5f
 #define SPEED 200.0f
 #define DELTA_TIME (float)window->GetFrameTime()
 #define FRICTION 4.0

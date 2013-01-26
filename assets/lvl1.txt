@@ -3,6 +3,7 @@ background 0 0 assets/wall.png
 background 0 500 assets/Floor.png
 background 0 500 assets/FloorMerger.png
 movingplatform 300 450 200 2 600 450 100
-staticplatform 0 500 1600 2
+staticplatform 300 385 200 150
+staticplatform -50 500 160050 0
 player 50 500
 healthbar 10 10 100
