@@ -15,8 +15,8 @@ class GameScreen
 		
 		GameScreen();
 		~GameScreen();
-		void update();
-		void draw();
+		virtual void update();
+		virtual void draw();
 
 		sf::Vector2f normaliseCoords(sf::Vector2f pos);
 };

@@ -35,13 +35,6 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			continue;
 			}
 
-		if (strcmp("healthbar", name) == 0) {
-			int health;
-			fIn >> health;
-			gs->gameObjects.push_back(HealthBar::createHealthBar(gs, Vector2f(x, y), health));
-			continue;
-			}
-
 		if (strcmp("movingplatform", name) == 0) {
 			int width, height;
 			float xend, yend, speed;

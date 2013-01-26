@@ -3,25 +3,28 @@
 
 #include "Game.h"
 
-class HealthBar : public GameObject
+class HealthBar : public GameScreen
 {
 	private:
-		HealthBar(GameScreen* gs, sf::Vector2f pos, int _maxHealth);
+		HealthBar(sf::Vector2f pos, int _maxHealth);
 
 	public:
-		static HealthBar* createHealthBar(GameScreen* gs, sf::Vector2f pos, int _maxHealth);
+		static HealthBar* createHealthBar(sf::Vector2f pos, int _maxHealth);
 		static HealthBar* getHealthBar();
 		void update();
 		void draw();
 		void setHealthTo(float h);
 		void addHealth(float h);
 
-
 		float maxHealth;
 		float currentHealth;
 		float targetHealth;
 
 		static HealthBar* ref;
+
+		sf::Vector2f position;
+		sf::Sprite sprite;
+		std::vector<sf::Image> images;
 
 };
 
