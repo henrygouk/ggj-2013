@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 void initialise()
 {
 	window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Orangeyness", Style::Fullscreen);
-//	window->UseVerticalSync(true);
+	window->UseVerticalSync(true);
 	
 	///HACKHACKHACK
 	gameScreens.push_back(new GameScreen());
@@ -80,5 +80,5 @@ void draw()
 	
 	window->Display();
 	
-	window->Capture().SaveToFile("screenshot.png");
+	//window->Capture().SaveToFile("screenshot.png");
 }

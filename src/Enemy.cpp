@@ -7,7 +7,7 @@ Enemy::Enemy(GameScreen *gs, Vector2f pos)
 	parent = gs;
 	position = pos;
 	
-	Image
+//	Image img
 }
 
 void Enemy::update()
