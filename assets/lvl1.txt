@@ -1,10 +1,10 @@
-9
+10
 background 0 0 assets/wall.png 255
 background 0 500 assets/Floor.png 255
 background 0 500 assets/FloorMerger.png 255
 pit 600 500 300 100
-movingplatform 300 450 200 2 600 450 100
 staticplatform 300 385 200 150
 staticplatform -50 500 695 0
 staticplatform 835 500 10000000 0
+enemy 835 500 1500 500
 player 50 500

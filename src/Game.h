@@ -21,6 +21,7 @@
 #include "HealthBar.h"
 #include "BloodFart.h"
 #include "BloodSquirt.h"
+#include "BloodContact.h"
 #include "PitObject.h"
 
 #define GRAVITY 4.81f

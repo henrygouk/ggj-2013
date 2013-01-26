@@ -13,6 +13,12 @@ class PlayerObject : public GameObject
 		bool flipped;
 		float boundingBoxXoffset;
 		sf::Vector2f boundingBoxSize;
+		bool enemyCollidable;
+		float enemyCollidableCoolDown;
+
+		//Bloods
+		float bloodSpawnCountDown;
+		float bloodSpawnXChange;
 
 		//Burst Jump shit
 		int facingDirection;
@@ -33,6 +39,7 @@ class PlayerObject : public GameObject
 		//Gets absolute positions of bounding box borders
 		//takes into account player position but not 
 		//camera cuz obvious.
+		inline float boundingBoxHMiddle();
 		inline float boundingBoxTop();
 		inline float boundingBoxBottom();
 		inline float boundingBoxLeft();

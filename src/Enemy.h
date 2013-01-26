@@ -11,6 +11,18 @@ class Enemy : public GameObject
 		Enemy(GameScreen *gs, sf::Vector2f pos, sf::Vector2f v);
 		void update();
 		void draw();
+
+		bool flipped;
+		int imageIndex;
+		int imageCount;
+		float imageAnimationSwitch;
+		float imageAnimationPos;
+		float imageAnimationSpeed;
+
+		float top();
+		float bottom();
+		float left();
+		float right();
 };
 
 #endif

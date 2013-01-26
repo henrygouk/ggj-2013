@@ -18,6 +18,8 @@
 
 #include <iostream>
 #include <sstream>
+#include <stdlib.h>
+#include <time.h>
 
 using namespace std;
 using namespace sf;
@@ -52,12 +54,17 @@ PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 	boundingBoxXoffset = 0;
 	boundingBoxSize = Vector2f(BOUNDINGBOX_WIDTH, BOUNDINGBOX_HEIGHT);
 
+	bloodSpawnXChange = 0;
+	bloodSpawnCountDown = 0;
 	
 	shootingFlag = false;
 	shootTimer.Reset();
 	ctrlDown = false;
 	facingDirection = FACING_RIGHT;
 	jumpCoolDown = 0.0;
+
+	enemyCollidable = true;
+	enemyCollidableCoolDown = 0;
 }
 
 void PlayerObject::update()
@@ -173,7 +180,6 @@ void PlayerObject::update()
 	velocity.y += GRAVITY * SPEED * DELTA_TIME;
 
 	Platform* snapped = NULL;
-
 	for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
 	{
 		Platform* obj = dynamic_cast<Platform*>(*it);
@@ -187,13 +193,68 @@ void PlayerObject::update()
 		{
 			snapped = obj;
 			position.y = obj->top();
+
+			if (velocity.y > 20 * GRAVITY * SPEED * DELTA_TIME)
+				parent->gameObjects.push_back(new BloodContact(parent, snapped, Vector2f(boundingBoxHMiddle(), boundingBoxBottom()), 4));
+
 			velocity.y = 0;
 			break;
 		}
 	}
 
+	bloodSpawnCountDown -= 3 * DELTA_TIME;
+
+	float absVelocity = velocity.x > 0 ? velocity.x * DELTA_TIME : -velocity.x * DELTA_TIME;
+	bloodSpawnXChange += absVelocity;
 	position += velocity * DELTA_TIME;
-	if (snapped) position += snapped->velocity * DELTA_TIME;
+
+	if (snapped) 
+	{
+		position += snapped->velocity * DELTA_TIME;
+	
+		if (bloodSpawnCountDown < 0 || bloodSpawnXChange > 15)
+		{
+			float mid = boundingBoxHMiddle();
+			if (mid - 10 > snapped->left() && mid + 10 < snapped->right()) 
+			{
+				int imageIdx = rand() % 4;
+				parent->gameObjects.push_back(new BloodContact(parent, snapped, Vector2f(mid, boundingBoxBottom()), imageIdx));
+				bloodSpawnCountDown = 1;
+				bloodSpawnXChange = 0;
+			}
+		}
+	}
+
+	if (enemyCollidable) 
+	{
+		for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
+		{
+			Enemy* obj = dynamic_cast<Enemy*>(*it);
+
+			if (!obj) continue;
+
+			if (boundingBoxLeft() < obj->left()) continue;
+			if (boundingBoxRight() > obj->right()) continue;
+			if (boundingBoxBottom() < obj->top()) continue;
+			if (boundingBoxTop() > obj->bottom()) continue;
+
+			enemyCollidableCoolDown = 3;
+			enemyCollidable = false;
+
+			velocity = velocity * -1.2f;
+			velocity = velocity + obj->velocity;
+
+			position += velocity * DELTA_TIME;	
+			
+			HealthBar::getHealthBar()->addHealth(-20);
+			break;
+		}
+	}
+		else
+	{
+		enemyCollidableCoolDown -= DELTA_TIME;
+		if (enemyCollidableCoolDown <= 0) enemyCollidable = true;
+	}
 	
 	parent->cameraPosition.x = (int)(position.x - (float)window->GetWidth() / 2.0f);
 
@@ -215,15 +276,23 @@ void PlayerObject::update()
 	{
 		HealthBar::getHealthBar()->setHealthTo(0);
 	}
+
 }
 
 void PlayerObject::draw()
 {
 	sprite.SetImage(images[imageIndex]);
 	sprite.SetPosition(parent->normaliseCoords(position));
+
+	if (enemyCollidable) 
+		sprite.SetColor(Color(255, 255, 255, 255));
+	else
+		sprite.SetColor(Color(255, 255, 255, 128));
+
 	window->Draw(sprite);
 }
 
+inline float PlayerObject::boundingBoxHMiddle() { return boundingBoxLeft() + (boundingBoxRight() - boundingBoxLeft()) / 2; } 
 inline float PlayerObject::boundingBoxLeft() { return position.x + boundingBoxXoffset; } 
 inline float PlayerObject::boundingBoxRight() { return position.x + boundingBoxXoffset + boundingBoxSize.x; } 
 inline float PlayerObject::boundingBoxTop() { return position.y + boundingBoxSize.y; } 
