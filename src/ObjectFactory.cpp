@@ -42,6 +42,11 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			gs->gameObjects.push_back(new StaticPlatform(gs, Vector2f(x, y), Vector2f(width, height)));
 			continue;
 			}
+			
+		if (strcmp("enemy", name) == 0) {
+			gs->gameObjects.push_back(new Enemy(gs, Vector2f(x, y)));
+			continue;
+			}
 		}
 
 	fIn.close();

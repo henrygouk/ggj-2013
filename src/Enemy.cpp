@@ -7,7 +7,12 @@ Enemy::Enemy(GameScreen *gs, Vector2f pos)
 	parent = gs;
 	position = pos;
 	
-//	Image img
+	Image img;
+	img.LoadFromFile("assets/Bounce-3sm.png");
+	images.push_back(img);
+	
+	sprite.SetImage(images[0]);
+	sprite.SetCenter(img.GetWidth() / 2, img.GetHeight());
 }
 
 void Enemy::update()
