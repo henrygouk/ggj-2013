@@ -2,6 +2,6 @@
 staticplatform 10 200 300 30
 staticplatform 400 200 300 30
 staticplatform 250 160 300 30
-enemy 300 160
+enemy 300 160 400 160
 player 50 50
-movingplatform 500 500 200 30 30.0 -10.0
+movingplatform 500 500 200 30 400.0 500.0 100.0

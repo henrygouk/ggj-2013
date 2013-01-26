@@ -82,3 +82,13 @@ void draw()
 	
 	//window->Capture().SaveToFile("screenshot.png");
 }
+
+float dot(const Vector2f &v1, const Vector2f &v2)
+{
+	return v1.x * v2.x + v1.y * v2.y;
+}
+
+Vector2f unit(const Vector2f &v)
+{
+	return v * (1.0f / sqrtf(dot(v, v)));
+}

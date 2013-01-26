@@ -37,13 +37,14 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 
 		if (strcmp("movingplatform", name) == 0) {
 			int width, height;
-			float xspeed, yspeed;
+			float xend, yend, speed;
 			fIn >> width;
 			fIn >> height;
-			fIn >> xspeed;
-			fIn >> yspeed;
+			fIn >> xend;
+			fIn >> yend;
+			fIn >> speed;
 
-			gs->gameObjects.push_back(new MovingPlatform(gs, Vector2f(x, y), Vector2f(width, height), Vector2f(xspeed, yspeed)));
+			gs->gameObjects.push_back(new MovingPlatform(gs, Vector2f(x, y), Vector2f(width, height), Vector2f(xend, yend), speed));
 			continue;
 			}
 
@@ -56,7 +57,10 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			}
 			
 		if (strcmp("enemy", name) == 0) {
-			gs->gameObjects.push_back(new Enemy(gs, Vector2f(x, y)));
+			int x2, y2;
+			fIn >> x2;
+			fIn >> y2;
+			gs->gameObjects.push_back(new Enemy(gs, Vector2f(x, y), Vector2f(x2, y2)));
 			continue;
 			}
 		}

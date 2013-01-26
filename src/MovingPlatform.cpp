@@ -3,18 +3,25 @@
 
 using namespace sf;
 
-MovingPlatform::MovingPlatform(GameScreen* gs, Vector2f pos, Vector2f dimens, Vector2f velo)
+MovingPlatform::MovingPlatform(GameScreen* gs, Vector2f pos, Vector2f dimens, Vector2f dst, float speed)
 {
  	parent = gs;
 	position = pos;
+	start = pos;
+	end = dst;
 	dimensions = dimens;
-	velocity = velo;
+	velocity = unit(end - start) * speed;
 }
 
 void MovingPlatform::update()
 {
+	if(dot(velocity, end - position) < 0)
+	{
+		velocity *= -1.0f;
+		swap(start, end);
+	}
+
 	position += velocity * DELTA_TIME;
-	//Static it up in here
 }
 
 

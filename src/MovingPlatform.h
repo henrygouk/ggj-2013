@@ -6,7 +6,9 @@
 class MovingPlatform : public Platform
 {
 	public:
-		MovingPlatform(GameScreen* gs, sf::Vector2f pos, sf::Vector2f dimens, sf::Vector2f velo);
+		sf::Vector2f start, end;
+	
+		MovingPlatform(GameScreen* gs, sf::Vector2f pos, sf::Vector2f dimens, sf::Vector2f dst, float speed);
 		void update();
 		void draw();
 };
