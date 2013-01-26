@@ -20,9 +20,10 @@ void MovingPlatform::update()
 
 void MovingPlatform::draw()
 {
-	Shape rect = Shape::Rectangle((position.x - parent->cameraPosition.x), position.y,
-								  (position.x - parent->cameraPosition.x) + dimensions.x,
-								  position.y + dimensions.y,
+	Vector2f topLeft = parent->normaliseCoords(position);
+	Vector2f bottomRight = parent->normaliseCoords(position + dimensions);
+
+	Shape rect = Shape::Rectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y,
 								  Color(255, 255, 255, 255));
 
 	window->Draw(rect);

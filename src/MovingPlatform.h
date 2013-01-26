@@ -9,12 +9,6 @@ class MovingPlatform : public Platform
 		MovingPlatform(GameScreen* gs, sf::Vector2f pos, sf::Vector2f dimens, sf::Vector2f velo);
 		void update();
 		void draw();
-
-		float top();
-		float left();
-		float right();
-	
-		sf::Vector2f dimensions;
 };
 
 #endif

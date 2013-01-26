@@ -4,6 +4,7 @@
 #define JUMP_STRENGTH -2.0f
 #define SPEED 200.0f
 #define DELTA_TIME (float)window->GetFrameTime()
+#define FRICTION 4.0
 
 #define ASSETS_BASE "assets/Bounce-"
 #define ASSETS_EXT "sm.png"
@@ -75,7 +76,7 @@ void PlayerObject::update()
 	{
 		if(velocity.x < 0.0)
 		{
-			velocity.x += 2.0 * SPEED * DELTA_TIME;
+			velocity.x += FRICTION * SPEED * DELTA_TIME;
 			velocity.x = min(velocity.x, SPEED);
 			
 			if(velocity.x > 0.0)
@@ -85,7 +86,7 @@ void PlayerObject::update()
 		}
 		else if(velocity.x > 0.0)
 		{
-			velocity.x -= 2.0 * SPEED * DELTA_TIME;
+			velocity.x -= FRICTION * SPEED * DELTA_TIME;
 
 			if(velocity.x < 0.0)
 			{
@@ -107,9 +108,12 @@ void PlayerObject::update()
 
 	velocity.y += GRAVITY * SPEED * DELTA_TIME;
 
+	Platform* snapped = NULL;
+
 	for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
 	{
-		StaticPlatform* obj = dynamic_cast<StaticPlatform*>(*it);
+		Platform* obj = dynamic_cast<Platform*>(*it);
+
 		if (!obj) continue;
 
 		if (boundingBoxLeft() < obj->left()) continue;
@@ -117,12 +121,15 @@ void PlayerObject::update()
 
 		if (boundingBoxBottom() <= obj->top() && boundingBoxBottom() + velocity.y * DELTA_TIME >= obj->top()) 
 		{
+			snapped = obj;
 			position.y = obj->top();
 			velocity.y = 0;
+			break;
 		}
 	}
 
 	position += velocity * DELTA_TIME;
+	if (snapped) position += snapped->velocity * DELTA_TIME;
 	
 	parent->cameraPosition.x = position.x - (float)window->GetWidth() / 2.0f;
 
