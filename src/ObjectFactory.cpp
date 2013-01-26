@@ -66,8 +66,10 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			
 		if (strcmp("background", name) == 0) {
 			string filename;
+			float opacity;
 			fIn >> filename;
-			gs->gameObjects.push_back(new Background(gs, Vector2f(x, y), filename));
+			fIn >> opacity;
+			gs->gameObjects.push_back(new Background(gs, Vector2f(x, y), filename, opacity));
 			continue;
 			}
 		}

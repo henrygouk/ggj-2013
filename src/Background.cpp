@@ -3,7 +3,7 @@
 using namespace std;
 using namespace sf;
 
-Background::Background(GameScreen *gs, Vector2f pos, string filename)
+Background::Background(GameScreen *gs, Vector2f pos, string filename, int opacity)
 {
 	parent = gs;
 	position = pos;
@@ -13,6 +13,7 @@ Background::Background(GameScreen *gs, Vector2f pos, string filename)
 	images.push_back(img);
 	
 	sprite.SetImage(images[0]);
+	sprite.SetColor(sf::Color(255, 255, 255, opacity));
 }
 
 void Background::update()

@@ -6,7 +6,7 @@
 class Background : public GameObject
 {
 	public:
-		Background(GameScreen *gs, sf::Vector2f pos, std::string image);
+		Background(GameScreen *gs, sf::Vector2f pos, std::string image, int opacity=255);
 		void update();
 		void draw();
 };

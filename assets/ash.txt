@@ -1,0 +1,2 @@
+1
+background 0 0 assets/AshTiling.png 20
