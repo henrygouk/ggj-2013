@@ -14,6 +14,7 @@
 #include "StaticPlatform.h"
 #include "MovingPlatform.h"
 #include "Enemy.h"
+#include "Background.h"
 #include "ObjectFactory.h"
 
 #define GRAVITY 4.81f

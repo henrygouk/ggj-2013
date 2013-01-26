@@ -125,7 +125,7 @@ void PlayerObject::update()
 	position += velocity * DELTA_TIME;
 	if (snapped) position += snapped->velocity * DELTA_TIME;
 	
-	parent->cameraPosition.x = position.x - (float)window->GetWidth() / 2.0f;
+	parent->cameraPosition.x = (int)(position.x - (float)window->GetWidth() / 2.0f);
 
 	imageAnimationSpeed = (velocity.x == 0) ? ANIMATION_SPEED_IDLE : ANIMATION_SPEED_MOVING;
 

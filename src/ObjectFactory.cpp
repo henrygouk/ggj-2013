@@ -63,6 +63,13 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			gs->gameObjects.push_back(new Enemy(gs, Vector2f(x, y), Vector2f(x2, y2)));
 			continue;
 			}
+			
+		if (strcmp("background", name) == 0) {
+			string filename;
+			fIn >> filename;
+			gs->gameObjects.push_back(new Background(gs, Vector2f(x, y), filename));
+			continue;
+			}
 		}
 
 	fIn.close();
