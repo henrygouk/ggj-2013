@@ -121,13 +121,17 @@ void PlayerObject::update()
 	else if(shootingFlag && !window->GetInput().IsKeyDown(Key::Space))
 	{
 		shootingFlag = false;
-		float t = min(shootTimer.GetElapsedTime(), 1.0f);
-		parent->gameObjects.push_back(new BloodSquirt(parent, position + Vector2f(flipped ? 20.0 : -20.0, -55.0 - 8.0 * cosf(min(2.0 * M_PI, (2.5f * M_PI * (float)imageIndex) / (float)ANIMATION_IMAGE_COUNT))), t, flipped));
+		float t = min(shootTimer.GetElapsedTime(), 0.5f);
+		Vector2f offset = Vector2f(flipped ? 20.0 : -20.0, -48.0 - 5.0 * cosf(min(2.0 * M_PI, (2.5f * M_PI * (float)imageIndex) / (float)ANIMATION_IMAGE_COUNT)));
+		parent->gameObjects.push_back(new BloodSquirt(parent, position + offset + Vector2f(-10.0, 0.0), t, flipped));
+		offset.x *= 2.6f;
+		offset.y += 15.0f;
+		parent->gameObjects.push_back(new BloodFart(parent, this, offset, flipped ? 1 : 0, 0, 0.5f));
 	}
 	
-	if(shootingFlag && shootTimer.GetElapsedTime() < 1.0f)
+	if(shootingFlag && shootTimer.GetElapsedTime() < 0.5f)
 	{
-		HealthBar::getHealthBar()->addHealth(-30.0 * DELTA_TIME);
+		HealthBar::getHealthBar()->addHealth(-60.0 * DELTA_TIME);
 	}
 
 	if(window->GetInput().IsKeyDown(Key::Up) || window->GetInput().IsKeyDown(Key::W)) 
@@ -194,6 +198,7 @@ void PlayerObject::update()
 	parent->cameraPosition.x = (int)(position.x - (float)window->GetWidth() / 2.0f);
 
 	imageAnimationSpeed = (velocity.x == 0) ? ANIMATION_SPEED_IDLE : ANIMATION_SPEED_MOVING;
+	imageAnimationSpeed = abs(velocity.x) > SPEED * 2.0f ? ANIMATION_SPEED_MOVING * 5.0f : imageAnimationSpeed;
 
 	if (velocity.y == 0 || imageIndex != 0)
 		imageAnimationPos += imageAnimationSpeed * DELTA_TIME;

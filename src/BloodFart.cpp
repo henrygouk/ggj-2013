@@ -12,7 +12,7 @@ using namespace std;
 bool BloodFart::imagesLoaded = false;
 vector<Image> BloodFart::staticImages;
 
-BloodFart::BloodFart(GameScreen* gs, GameObject* follow, Vector2f off, int mirrow, int rotation) 
+BloodFart::BloodFart(GameScreen* gs, GameObject* follow, Vector2f off, int mirrow, int rotation, float scale) 
 {
 
 	offset = off;
@@ -43,6 +43,7 @@ BloodFart::BloodFart(GameScreen* gs, GameObject* follow, Vector2f off, int mirro
 	
 	sprite.SetRotation(rotation);
 	sprite.FlipX(mirrow != 1);
+	sprite.SetScale(1.0f, scale);
 	sprite.SetImage(staticImages[imageIndex]);
 	sprite.SetCenter(staticImages[imageIndex].GetWidth()/ 2, staticImages[imageIndex].GetHeight());
 }
