@@ -16,7 +16,11 @@ BloodFart::BloodFart(GameScreen* gs, GameObject* follow, Vector2f off, int mirro
 {
 
 	offset = off;
-	position = follow->position + offset;
+	if (follow)
+		position = follow->position + offset;
+	else
+		position = offset;
+
 	parent = gs;
 	creator = follow;
 
@@ -50,7 +54,10 @@ BloodFart::BloodFart(GameScreen* gs, GameObject* follow, Vector2f off, int mirro
 
 void BloodFart::update()
 {
-	position = creator->position + offset;
+	if (creator)
+		position = creator->position + offset;
+	else
+		position = offset;
 	
 	imageAnimationPos += imageAnimationSpeed * DELTA_TIME;
 

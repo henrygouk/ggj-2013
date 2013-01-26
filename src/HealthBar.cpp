@@ -7,7 +7,7 @@
 #define BLOOD_COUNT 5
 #define RECT_WIDTH 389.0f
 #define RECT_HEIGHT 15.0f
-#define HEALTH_ANIMATE_SPEED 50
+#define HEALTH_ANIMATE_SPEED 15
 //Animate speed in % per second
 
 #include <sstream>
@@ -105,7 +105,7 @@ void HealthBar::draw()
 	float healthPercent = currentHealth / maxHealth;
 
 	Shape rect = Shape::Rectangle(rectOrigin.x, rectOrigin.y, rectOrigin.x+RECT_WIDTH*healthPercent, rectOrigin.y+RECT_HEIGHT,
-								  Color(163, 0, 4, 255));
+								  Color(193, 0, 4, 255));
 
 	window->Draw(rect);
 

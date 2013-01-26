@@ -3,6 +3,9 @@
 using namespace std;
 using namespace sf;
 
+#include <stdlib.h>
+#include <time.h>
+
 BloodSquirt::BloodSquirt(GameScreen *gs, Vector2f pos, float time, bool flip)
 {
 	parent = gs;
@@ -43,6 +46,45 @@ void BloodSquirt::update()
 		return;
 	}
 	
+	for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
+	{
+		Enemy* obj = dynamic_cast<Enemy*>(*it);
+
+		if (!obj) continue;
+
+		if (position.x + 5 < obj->left()) continue;
+		if (position.x - 5 > obj->right()) continue;
+		if (position.y + 5 < obj->top()) continue;
+		if (position.y - 5 > obj->bottom()) continue;
+
+		for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
+		{
+			if (*it == obj) 
+			{
+				parent->gameObjects.erase(it);
+				break;
+			}
+		}
+		
+		for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
+		{
+			if (*it == this) 
+			{
+				parent->gameObjects.erase(it);
+				break;
+			}
+		}
+	
+		for (int i = 0; i < 14; i++) 
+		{
+			parent->gameObjects.push_back(new BloodFart(parent, NULL, position, 1, i*24, 2.0f));
+			parent->gameObjects.push_back(new BloodContact(parent, NULL, Vector2f(obj->position.x+rand()%50-rand()%50, obj->bottom()), rand()%5));
+		}
+
+		delete this;
+		return;
+	}
+
 	position.x += velocity.x * DELTA_TIME;
 }
 
