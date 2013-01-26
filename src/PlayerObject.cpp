@@ -210,6 +210,11 @@ void PlayerObject::update()
 	}
 	
 	position.x = max(position.x, 0.0f);
+	
+	if(position.y > 800)
+	{
+		HealthBar::getHealthBar()->setHealthTo(0);
+	}
 }
 
 void PlayerObject::draw()

@@ -72,6 +72,14 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			gs->gameObjects.push_back(new Background(gs, Vector2f(x, y), filename, opacity));
 			continue;
 			}
+			
+		if (strcmp("pit", name) == 0) {
+			int x2, y2;
+			fIn >> x2;
+			fIn >> y2;
+			gs->gameObjects.push_back(new PitObject(gs, Vector2f(x, y), Vector2f(x2, y2)));
+			continue;
+			}
 		}
 
 	fIn.close();
