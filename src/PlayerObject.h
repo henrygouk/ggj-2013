@@ -10,6 +10,7 @@ class PlayerObject : public GameObject
 		void update();
 		void draw();
 
+		bool flipped;
 		float boundingBoxXoffset;
 		sf::Vector2f boundingBoxSize;
 
@@ -23,7 +24,11 @@ class PlayerObject : public GameObject
 		int imageCount;
 		float imageAnimationSwitch;
 		float imageAnimationPos;
-		float imageAnimationSpeed; 
+		float imageAnimationSpeed;
+		
+		//Shooting stuff
+		bool shootingFlag;
+		sf::Clock shootTimer;
 
 		//Gets absolute positions of bounding box borders
 		//takes into account player position but not 

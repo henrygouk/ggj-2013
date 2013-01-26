@@ -19,8 +19,11 @@
 #include "Background.h"
 #include "ObjectFactory.h"
 #include "HealthBar.h"
-#include "BloodFart.h"
+<<<<<<< HEAD
 #include "BloodSquirt.h"
+=======
+#include "BloodFart.h"
+>>>>>>> 0417780f028fcfaf89bc56edd4d53d243ba9b9d5
 
 #define GRAVITY 4.81f
 #define JUMP_STRENGTH -2.5f

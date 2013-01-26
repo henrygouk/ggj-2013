@@ -6,7 +6,7 @@
 class BloodFart : public GameObject
 {
 	public:
-		BloodFart(GameScreen* gs, GameObject* follow, sf::Vector2f offset, int mirror, int rotation);
+		BloodFart(GameScreen* gs, GameObject* follow, sf::Vector2f offset, int mirror, int rotation, float scale = 1.0f);
 
 		void update();
 		void draw();
