@@ -1,6 +1,6 @@
 #include "Game.h"
 
-#define ASSETS_BASE "assets/Bounce-"
+#define ASSETS_BASE "Bounce-"
 #define ASSETS_EXT "sm.png"
 #define ANIMATION_IMAGE_COUNT 11
 #define ANIMATION_SPEED_MOVING 1.0
@@ -11,7 +11,6 @@
 #define BOUNDINGBOX_LEFT_OFFSET 20
 #define BOUNDINGBOX_RIGHT_OFFSET 0
 
-#include <iostream>
 #include <sstream>
 
 using namespace std;
@@ -32,7 +31,7 @@ PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 	for(int i = 1; i <= imageCount; i++) 
 	{
 		stringstream ss (stringstream::in | stringstream::out);
-		ss << ASSETS_BASE << i << ASSETS_EXT;
+		ss << ASSETS_FOLDER << ASSETS_BASE << i << ASSETS_EXT;
 
 		sf::Image img;
 		img.LoadFromFile(ss.str());
@@ -91,6 +90,8 @@ void PlayerObject::update()
 
 	if(window->GetInput().IsKeyDown(Key::Up) || window->GetInput().IsKeyDown(Key::W)) 
 	{
+		HealthBar::getHealthBar()->addHealth(-10);
+
 		if (velocity.y == 0.0)
 			velocity.y += JUMP_STRENGTH * SPEED;
 	}

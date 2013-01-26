@@ -1,4 +1,4 @@
-7
+9
 background 0 0 assets/wall.png
 background 0 500 assets/Floor.png
 background 0 500 assets/floorMerger.png
@@ -6,3 +6,4 @@ enemy 300 160 400 160
 movingplatform 300 450 200 2 600 450 100
 staticplatform 0 500 1600 2
 player 50 50
+healthbar 10 10 100

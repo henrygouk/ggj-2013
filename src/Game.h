@@ -16,12 +16,14 @@
 #include "Enemy.h"
 #include "Background.h"
 #include "ObjectFactory.h"
+#include "HealthBar.h"
 
 #define GRAVITY 4.81f
 #define JUMP_STRENGTH -2.0f
 #define SPEED 200.0f
 #define DELTA_TIME (float)window->GetFrameTime()
 #define FRICTION 4.0
+#define ASSETS_FOLDER "assets/"
 
 extern bool running;
 extern std::vector<GameScreen *> gameScreens;
