@@ -37,6 +37,7 @@ void initialise()
 	
 	///HACKHACKHACK
 	gameScreens.push_back(new GameScreen());
+	gameScreens.push_back(HealthBar::createHealthBar(Vector2f(10, 10), 100));
 
 	string str ("assets/lvl1.txt");
 	ObjectFactory::loadFile(str, gameScreens[0]);

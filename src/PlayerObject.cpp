@@ -14,7 +14,7 @@
 #define FACING_RIGHT -1 
 #define FACING_LEFT 1
 
-#define FART_JUMP_CD 1.2
+#define FART_JUMP_CD 0.5
 
 #include <iostream>
 #include <sstream>

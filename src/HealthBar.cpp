@@ -3,6 +3,8 @@
 #define ASSETS_EXT ".png"
 #define EMPTY_INDEX 0 
 #define BACK_INDEX 1
+#define BLOOD_START 2
+#define BLOOD_COUNT 5
 #define RECT_WIDTH 389.0f
 #define RECT_HEIGHT 15.0f
 #define HEALTH_ANIMATE_SPEED 50
@@ -14,9 +16,8 @@ using namespace sf;
 
 HealthBar* HealthBar::ref = NULL;
 
-HealthBar::HealthBar(GameScreen* gs, Vector2f pos, int _maxHealth) 
+HealthBar::HealthBar(Vector2f pos, int _maxHealth) 
 {
-	parent = gs;
 	position = pos;
 	maxHealth = _maxHealth;
 	currentHealth = maxHealth;
@@ -34,13 +35,20 @@ HealthBar::HealthBar(GameScreen* gs, Vector2f pos, int _maxHealth)
 	img.LoadFromFile(ss.str());
 	images.push_back(img);
 
-	sprite.SetPosition(position);
+	for(int i = 1; i <= BLOOD_COUNT; i++) 
+	{
+		ss.str(string());
+		ss << ASSETS_FOLDER << "Blood-overlay-" << i << ASSETS_EXT;
+		img.LoadFromFile(ss.str());
+		images.push_back(img);
+	}
+
 }
 
-HealthBar* HealthBar::createHealthBar(GameScreen* gs, Vector2f pos, int _maxHealth) 
+HealthBar* HealthBar::createHealthBar(Vector2f pos, int _maxHealth) 
 {
 	if (ref == NULL)
-		ref = new HealthBar(gs, pos, _maxHealth);
+		ref = new HealthBar(pos, _maxHealth);
 
 	return ref;
 }
@@ -88,6 +96,7 @@ void HealthBar::update()
 
 void HealthBar::draw()
 {
+	sprite.SetPosition(position);
 	sprite.SetImage(images[BACK_INDEX]);
 	window->Draw(sprite);
 	
@@ -102,4 +111,52 @@ void HealthBar::draw()
 
 	sprite.SetImage(images[EMPTY_INDEX]);
 	window->Draw(sprite);
+
+	Shape bloodRect = Shape::Rectangle(0, 0, 800, 600, Color(255, 0, 0, 20));
+
+	if (healthPercent < 0.5) 
+	{
+		Sprite blood;
+		blood.SetPosition(Vector2f(800-images[BLOOD_START].GetWidth(), 0));
+		blood.SetImage(images[BLOOD_START]);
+		blood.SetColor(sf::Color(255, 255, 255, 60));
+		window->Draw(blood);
+		window->Draw(bloodRect);
+	}
+	if (healthPercent < 0.4) 
+	{
+		Sprite blood;
+		blood.SetPosition(Vector2f(800-images[BLOOD_START+1].GetWidth(), 600-images[BLOOD_START+1].GetHeight()));
+		blood.SetImage(images[BLOOD_START+1]);
+		blood.SetColor(sf::Color(255, 255, 255, 70));
+		window->Draw(blood);
+		window->Draw(bloodRect);
+	}
+	if (healthPercent < 0.3) 
+	{
+		Sprite blood;
+		blood.SetPosition(Vector2f(0, 0));
+		blood.SetImage(images[BLOOD_START+2]);
+		blood.SetColor(sf::Color(255, 255, 255, 75));
+		window->Draw(blood);
+		window->Draw(bloodRect);
+	}
+	if (healthPercent < 0.2) 
+	{
+		Sprite blood;
+		blood.SetPosition(Vector2f(800-images[BLOOD_START+3].GetWidth(), 0));
+		blood.SetImage(images[BLOOD_START+3]);
+		blood.SetColor(sf::Color(255, 255, 255, 80));
+		window->Draw(blood);
+		window->Draw(bloodRect);
+	}
+	if (healthPercent < 0.1) 
+	{
+		Sprite blood;
+		blood.SetPosition(Vector2f(50, 50));
+		blood.SetImage(images[BLOOD_START+4]);
+		blood.SetColor(sf::Color(255, 255, 255, 85));
+		window->Draw(blood);
+		window->Draw(bloodRect);
+	}
 }
