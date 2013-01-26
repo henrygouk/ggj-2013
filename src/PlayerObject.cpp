@@ -5,6 +5,21 @@
 #define SPEED 200.0f
 #define DELTA_TIME (float)window->GetFrameTime()
 
+#define ASSETS_BASE "assets/Bounce-"
+#define ASSETS_EXT "sm.png"
+#define ANIMATION_IMAGE_COUNT 11
+#define ANIMATION_SPEED_MOVING 1.0
+#define ANIMATION_SPEED_IDLE 0.55
+
+#define BOUNDINGBOX_WIDTH -20
+#define BOUNDINGBOX_HEIGHT -60
+#define BOUNDINGBOX_LEFT_OFFSET 20
+#define BOUNDINGBOX_RIGHT_OFFSET 0
+
+#include <iostream>
+#include <sstream>
+
+using namespace std;
 using namespace sf;
 
 PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
@@ -13,14 +28,28 @@ PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 	position = pos;
 	velocity = Vector2f(0.0, 0.0);
 
-	sf::Image img;
-	img.LoadFromFile("assets/Bounce-1sm.png");
+	imageCount = ANIMATION_IMAGE_COUNT;
+	imageIndex = 0;
+	imageAnimationSwitch = 0.05;
+	imageAnimationPos = 0.0;
+	imageAnimationSpeed = ANIMATION_SPEED_IDLE;
 	
-	images.push_back(img);
+	for(int i = 1; i <= imageCount; i++) 
+	{
+		stringstream ss (stringstream::in | stringstream::out);
+		ss << ASSETS_BASE << i << ASSETS_EXT;
+
+		sf::Image img;
+		img.LoadFromFile(ss.str());
+		images.push_back(img);
+	}
 	
 	sprite.FlipX(true);
-	sprite.SetImage(images[0]);
-	sprite.SetCenter(img.GetWidth() / 2, img.GetHeight());
+	sprite.SetImage(images[imageIndex]);
+	sprite.SetCenter(images[imageIndex].GetWidth() / 2, images[imageIndex].GetHeight());
+
+	boundingBoxXoffset = 0;
+	boundingBoxSize = Vector2f(BOUNDINGBOX_WIDTH, BOUNDINGBOX_HEIGHT);
 }
 
 void PlayerObject::update()
@@ -31,6 +60,7 @@ void PlayerObject::update()
 		velocity.x += 3.0 * SPEED * DELTA_TIME;
 		velocity.x = min(velocity.x, SPEED);
 		
+		boundingBoxXoffset = BOUNDINGBOX_RIGHT_OFFSET;
 		sprite.FlipX(true);
 	}
 	else if(window->GetInput().IsKeyDown(Key::Left) || window->GetInput().IsKeyDown(Key::A))
@@ -38,6 +68,7 @@ void PlayerObject::update()
 		velocity.x -= 3.0 * SPEED * DELTA_TIME;
 		velocity.x = max(velocity.x, -SPEED);
 		
+		boundingBoxXoffset = BOUNDINGBOX_LEFT_OFFSET;
 		sprite.FlipX(false);
 	}
 	else
@@ -81,10 +112,10 @@ void PlayerObject::update()
 		StaticPlatform* obj = dynamic_cast<StaticPlatform*>(*it);
 		if (!obj) continue;
 
-		if (position.x + sprite.GetImage()->GetWidth() / 4 < obj->left()) continue;
-		if (position.x - sprite.GetImage()->GetWidth() / 4 > obj->right()) continue;
+		if (boundingBoxLeft() < obj->left()) continue;
+		if (boundingBoxRight() > obj->right()) continue;
 
-		if (position.y <= obj->top() && position.y + velocity.y * DELTA_TIME >= obj->top()) 
+		if (boundingBoxBottom() <= obj->top() && boundingBoxBottom() + velocity.y * DELTA_TIME >= obj->top()) 
 		{
 			position.y = obj->top();
 			velocity.y = 0;
@@ -94,11 +125,37 @@ void PlayerObject::update()
 	position += velocity * DELTA_TIME;
 	
 	parent->cameraPosition.x = position.x - (float)window->GetWidth() / 2.0f;
+
+	imageAnimationSpeed = (velocity.x == 0) ? ANIMATION_SPEED_IDLE : ANIMATION_SPEED_MOVING;
+
+	if (velocity.y == 0 || imageIndex != 0)
+		imageAnimationPos += imageAnimationSpeed * DELTA_TIME;
+
+	if (imageAnimationPos > imageAnimationSwitch) 
+	{
+		imageAnimationPos = 0;
+		if (imageIndex++ >= imageCount-1) imageIndex = 0;
+	}
 }
 
 void PlayerObject::draw()
 {
-	sprite.SetImage(images[0]);
-	sprite.SetPosition(position - parent->cameraPosition);
+	sprite.SetImage(images[imageIndex]);
+	sprite.SetPosition(parent->normaliseCoords(position));
 	window->Draw(sprite);
+
+	/*
+	Vector2f topleft = parent->normaliseCoords(Vector2f(boundingBoxLeft(), boundingBoxTop()));
+	Vector2f bottomright = parent->normaliseCoords(Vector2f(boundingBoxRight(), boundingBoxBottom()));
+
+	Shape rect = Shape::Rectangle(topleft.x, topleft.y, bottomright.x, bottomright.y, Color(255, 0, 0, 255));
+
+	window->Draw(rect);
+	*/
+	
 }
+
+inline float PlayerObject::boundingBoxLeft() { return position.x + boundingBoxXoffset; } 
+inline float PlayerObject::boundingBoxRight() { return position.x + boundingBoxXoffset + boundingBoxSize.x; } 
+inline float PlayerObject::boundingBoxTop() { return position.y + boundingBoxSize.y; } 
+inline float PlayerObject::boundingBoxBottom() { return position.y; } 

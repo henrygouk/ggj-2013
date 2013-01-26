@@ -35,6 +35,18 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			continue;
 			}
 
+		if (strcmp("movingplatform", name) == 0) {
+			int width, height;
+			float xspeed, yspeed;
+			fIn >> width;
+			fIn >> height;
+			fIn >> xspeed;
+			fIn >> yspeed;
+
+			gs->gameObjects.push_back(new MovingPlatform(gs, Vector2f(x, y), Vector2f(width, height), Vector2f(xspeed, yspeed)));
+			continue;
+			}
+
 		if (strcmp("staticplatform", name) == 0) {
 			int width, height;
 			fIn >> width;

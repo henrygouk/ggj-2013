@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 //Initialise things that need something done at startup
 void initialise()
 {
-	window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Orangeyness", Style::Fullscreen);
+	window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Orangeyness");
 	window->UseVerticalSync(true);
 	
 	///HACKHACKHACK

@@ -39,3 +39,8 @@ void GameScreen::draw()
 		}
 	}
 }
+
+Vector2f GameScreen::normaliseCoords(Vector2f pos) 
+{
+	return (pos - cameraPosition);
+}

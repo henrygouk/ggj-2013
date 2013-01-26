@@ -1,21 +1,24 @@
 #include "Game.h"
+#define DELTA_TIME (float)window->GetFrameTime()
 
 using namespace sf;
 
-StaticPlatform::StaticPlatform(GameScreen* gs, Vector2f pos, Vector2f dimens)
+MovingPlatform::MovingPlatform(GameScreen* gs, Vector2f pos, Vector2f dimens, Vector2f velo)
 {
  	parent = gs;
 	position = pos;
 	dimensions = dimens;
+	velocity = velo;
 }
 
-void StaticPlatform::update()
+void MovingPlatform::update()
 {
+	position += velocity * DELTA_TIME;
 	//Static it up in here
 }
 
 
-void StaticPlatform::draw()
+void MovingPlatform::draw()
 {
 	Shape rect = Shape::Rectangle((position.x - parent->cameraPosition.x), position.y,
 								  (position.x - parent->cameraPosition.x) + dimensions.x,
