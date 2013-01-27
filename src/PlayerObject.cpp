@@ -152,7 +152,6 @@ void PlayerObject::update()
 			position.y += 1.0;
 	}
 
-
 	if (window->GetInput().IsKeyDown(Key::LControl) && !ctrlDown && jumpCoolDown <= 0) 
 	{
 		if (velocity.y == 0) 
@@ -183,6 +182,7 @@ void PlayerObject::update()
 	for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
 	{
 		Platform* obj = dynamic_cast<Platform*>(*it);
+		DeathPlatform* dobj = dynamic_cast<DeathPlatform*>(*it);
 
 		if (obj)
 		{
@@ -199,6 +199,13 @@ void PlayerObject::update()
 
 				velocity.y = 0;
 			}
+
+			if (dobj) 
+			{
+				HealthBar::getHealthBar()->addHealth(-1 * dobj->damage * DELTA_TIME);
+				if (bloodSpawnCountDown > 0.5) bloodSpawnCountDown = 0.5;
+			}
+
 			
 			continue;
 		}
@@ -243,7 +250,7 @@ void PlayerObject::update()
 	if (snapped) 
 	{
 		position += snapped->velocity * DELTA_TIME;
-	
+
 		if (bloodSpawnCountDown < 0 || bloodSpawnXChange > 15)
 		{
 			float mid = boundingBoxHMiddle();
@@ -255,6 +262,9 @@ void PlayerObject::update()
 				bloodSpawnXChange = 0;
 			}
 		}
+
+		
+
 	}
 
 	if (enemyCollidable) 

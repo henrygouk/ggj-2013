@@ -16,6 +16,7 @@
 #include "Platform.h"
 #include "StaticPlatform.h"
 #include "MovingPlatform.h"
+#include "DeathPlatform.h"
 #include "Enemy.h"
 #include "Background.h"
 #include "ObjectFactory.h"

@@ -81,6 +81,7 @@ void BloodSquirt::update()
 			parent->gameObjects.push_back(new BloodContact(parent, NULL, Vector2f(obj->position.x+rand()%50-rand()%50, obj->bottom()), rand()%5));
 		}
 
+		delete obj;
 		delete this;
 		return;
 	}
