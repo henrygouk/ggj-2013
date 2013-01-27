@@ -51,7 +51,7 @@ void HealthPack::update()
 
 void HealthPack::draw()
 {
-	if(remaining > 6.0)
+	if(remaining > 12.0)
 	{
 		sprite.SetPosition(parent->normaliseCoords(position));
 		window->Draw(sprite);

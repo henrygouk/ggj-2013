@@ -199,6 +199,11 @@ void PlayerObject::update()
 
 				velocity.y = 0;
 			}
+			
+			if(boundingBoxBottom() < obj->top())
+			{
+				continue;
+			}
 
 			if (dobj) 
 			{
@@ -235,7 +240,7 @@ void PlayerObject::update()
 				}
 				else
 				{
-					hp->remaining = 6.0;
+					hp->remaining = 12.0;
 					HealthBar::getHealthBar()->changeHealth = false;
 				}
 			}
@@ -246,7 +251,6 @@ void PlayerObject::update()
 
 	float absVelocity = velocity.x > 0 ? velocity.x * DELTA_TIME : -velocity.x * DELTA_TIME;
 	bloodSpawnXChange += absVelocity;
-	position += velocity * DELTA_TIME;
 
 	if (snapped) 
 	{
@@ -321,8 +325,10 @@ void PlayerObject::update()
 	if(position.y > 800)
 	{
 		HealthBar::getHealthBar()->setHealthTo(0);
+		velocity.x = 0;
 	}
 
+	position += velocity * DELTA_TIME;
 }
 
 void PlayerObject::draw()
