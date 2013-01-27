@@ -1,11 +1,15 @@
-10
+14
 background 0 0 assets/wall.png 255
 background 0 500 assets/Floor.png 255
 background 0 500 assets/FloorMerger.png 255
-staticplatform 300 385 200 150
-staticplatform -50 500 695 0
+staticplatform 300 385 0 35 assets/Stretcher.png
+staticplatform 1600 380 0 0 assets/Shelve1.png
+staticplatform 1600 260 0 0 assets/Shelve2.png
+staticplatform 1600 140 0 0 assets/Shelve3.png
+movingplatform 1900 377 0 10 2100 377 100 assets/Trolly.png
+staticplatform -50 500 695 0 null
 pit 600 500 300 100
-staticplatform 835 500 10000000 0
+staticplatform 835 500 100000 0 null
 healthpack 500 400
 enemy 835 500 1500 500
 player 50 500

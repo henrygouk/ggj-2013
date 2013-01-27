@@ -12,11 +12,12 @@ HealthPack::HealthPack(GameScreen *gs, Vector2f pos)
 	
 	if(!loaded)
 	{
-		healthPack.LoadFromFile("assets/BloodEnd.png");
+		healthPack.LoadFromFile("assets/Health.png");
 		loaded = true;
 	}
 	
 	sprite.SetImage(healthPack);
+	sprite.SetCenter(healthPack.GetWidth() / 2, healthPack.GetHeight() / 2);
 }
 
 void HealthPack::update()

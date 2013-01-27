@@ -1,7 +1,7 @@
 #include "Game.h"
 
 #define IMAGE_COUNT 5
-#define LIFE_SPAN 10
+#define LIFE_SPAN 2
 
 #include <sstream>
 #include <stdlib.h>
@@ -53,7 +53,7 @@ void BloodContact::update()
 
 	if (lifeSpan > 0) return;
 
-	opacity -= 128.0 * DELTA_TIME;
+	opacity -= 64.0 * DELTA_TIME;
 
 	if (opacity > 0) return;
 
