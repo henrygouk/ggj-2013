@@ -26,6 +26,7 @@
 #include "BloodContact.h"
 #include "PitObject.h"
 #include "HealthPack.h"
+#include "DeathAnimation.h"
 
 #define GRAVITY 4.81f
 #define JUMP_STRENGTH -2.5f

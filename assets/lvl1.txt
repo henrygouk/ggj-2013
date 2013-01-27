@@ -8,7 +8,7 @@ staticplatform 1600 260 0 0 assets/Shelve2.png
 staticplatform 1600 140 0 0 assets/Shelve3.png
 movingplatform 1900 377 0 10 2100 377 100 assets/Trolly.png
 staticplatform -50 500 695 0 null
-deathplatform 950 500 75 264 5 assets/Needles.png 0.5
+deathplatform 950 500 75 264 10 assets/Needles.png 0.4
 pit 600 500 300 100
 staticplatform 835 500 100000 0 null
 healthpack 500 450
