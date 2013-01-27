@@ -26,9 +26,12 @@ void DeathPlatform::update()
 
 void DeathPlatform::draw()
 {
+	Vector2f drawPosition = position;
+	drawPosition.y += 6;
+
 	sprite.SetScaleX(scale);
 	sprite.SetScaleY(scale);
-	sprite.SetPosition(parent->normaliseCoords(position));
+	sprite.SetPosition(parent->normaliseCoords(drawPosition));
 	sprite.SetImage(images[0]);
 	window->Draw(sprite);
 }

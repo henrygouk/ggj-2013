@@ -13,6 +13,13 @@ class BloodSquirt : public GameObject
 		float power;
 		bool drawMe;
 		sf::Clock timer;
+
+		//Animations shit
+		int imageIndex;
+		int imageCount;
+		float imageAnimationSwitch;
+		float imageAnimationPos;
+		float imageAnimationSpeed;
 };
 
 #endif

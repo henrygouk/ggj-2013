@@ -216,7 +216,7 @@ void PlayerObject::update()
 		{
 			Vector2f ab = hp->position - (position - Vector2f(0.0f, 35.0f));
 			
-			if(sqrtf(dot(ab, ab)) < 50.0f)
+			if(sqrtf(dot(ab, ab)) < 30.0f)
 			{
 				HealthBar::getHealthBar()->addHealth(20.0);
 				
@@ -237,6 +237,7 @@ void PlayerObject::update()
 
 	float absVelocity = velocity.x > 0 ? velocity.x * DELTA_TIME : -velocity.x * DELTA_TIME;
 	bloodSpawnXChange += absVelocity;
+	position += velocity * DELTA_TIME;
 
 	if (snapped) 
 	{
@@ -308,10 +309,7 @@ void PlayerObject::update()
 	if(position.y > 800)
 	{
 		HealthBar::getHealthBar()->setHealthTo(0);
-		velocity.x = 0.0f;
 	}
-	
-	position += velocity * DELTA_TIME;
 
 }
 
