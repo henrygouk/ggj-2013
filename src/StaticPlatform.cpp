@@ -1,25 +1,32 @@
 #include "Game.h"
 
 using namespace sf;
+using namespace std;
 
-StaticPlatform::StaticPlatform(GameScreen* gs, Vector2f pos, Vector2f dimens)
+StaticPlatform::StaticPlatform(GameScreen* gs, Vector2f pos, Vector2f dimens, string filename)
 {
  	parent = gs;
 	position = pos;
-	dimensions = dimens;
 	velocity.x = 0;
 	velocity.y = 0;
 	
-	Image img;
-	img.LoadFromFile("assets/Stretcher.png");
-	images.push_back(img);
-	
-	if(dimens.y = 150.0)
+	if(filename != "null")
 	{
-		sprite.SetCenter(0, 35);
-	}
+		Image img;
+		img.LoadFromFile(filename);
+		images.push_back(img);
 	
-	sprite.SetImage(images[0]);
+		sprite.SetCenter(dimens);
+		sprite.SetImage(images[0]);
+		loaded = true;
+		
+		dimensions = Vector2f(img.GetWidth(), img.GetHeight());
+	}
+	else
+	{
+		loaded = false;
+		dimensions = dimens;
+	}
 }
 
 void StaticPlatform::update()
@@ -31,16 +38,10 @@ void StaticPlatform::update()
 void StaticPlatform::draw()
 {
 	Vector2f topLeft = parent->normaliseCoords(position);
-	/*Vector2f bottomRight = parent->normaliseCoords(position + dimensions);
 
-	Shape rect = Shape::Rectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y,
-								  Color(255, 255, 255, 255));*/
-	
-	if(dimensions.y > 0)
+	if(loaded)
 	{
 		sprite.SetPosition(topLeft);
 		window->Draw(sprite);
 	}
-
-//	window->Draw(rect);
 }

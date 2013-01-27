@@ -3,14 +3,21 @@
 
 using namespace sf;
 
-MovingPlatform::MovingPlatform(GameScreen* gs, Vector2f pos, Vector2f dimens, Vector2f dst, float speed)
+MovingPlatform::MovingPlatform(GameScreen* gs, Vector2f pos, Vector2f dimens, Vector2f dst, float speed, string filename)
 {
  	parent = gs;
 	position = pos;
 	start = pos;
 	end = dst;
-	dimensions = dimens;
 	velocity = unit(end - start) * speed;
+	
+	Image img;
+	img.LoadFromFile(filename);
+	images.push_back(img);
+	
+	sprite.SetImage(images[0]);
+	sprite.SetCenter(dimens);
+	dimensions = Vector2f(img.GetWidth(), img.GetHeight());
 }
 
 void MovingPlatform::update()
@@ -28,10 +35,6 @@ void MovingPlatform::update()
 void MovingPlatform::draw()
 {
 	Vector2f topLeft = parent->normaliseCoords(position);
-	Vector2f bottomRight = parent->normaliseCoords(position + dimensions);
-
-	Shape rect = Shape::Rectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y,
-								  Color(255, 255, 255, 255));
-
-	window->Draw(rect);
+	sprite.SetPosition(topLeft);
+	window->Draw(sprite);
 }

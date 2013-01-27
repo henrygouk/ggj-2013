@@ -6,7 +6,7 @@
 #define BLOOD_START 2
 #define BLOOD_COUNT 5
 #define RECT_WIDTH 389.0f
-#define RECT_HEIGHT 15.0f
+#define RECT_HEIGHT 19.0f
 #define HEALTH_ANIMATE_SPEED 15
 //Animate speed in % per second
 
@@ -100,7 +100,7 @@ void HealthBar::draw()
 	sprite.SetImage(images[BACK_INDEX]);
 	window->Draw(sprite);
 	
-	Vector2f rectOrigin (position.x + 30, position.y + 30);
+	Vector2f rectOrigin (position.x + 30, position.y + 27);
 
 	float healthPercent = currentHealth / maxHealth;
 
