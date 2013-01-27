@@ -70,6 +70,8 @@ void HealthBar::addHealth(float h)
 
 void HealthBar::update() 
 {
+	if (!enableUpdate) return;
+
 	if (currentHealth == targetHealth)
 		return;
 
@@ -96,6 +98,8 @@ void HealthBar::update()
 
 void HealthBar::draw()
 {
+	if (!enableDraw) return;
+
 	sprite.SetPosition(position);
 	sprite.SetImage(images[BACK_INDEX]);
 	window->Draw(sprite);

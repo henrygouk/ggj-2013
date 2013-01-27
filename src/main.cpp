@@ -36,14 +36,24 @@ void initialise()
 	window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Orangeyness"/*, sf::Style::Fullscreen*/); 
 	
 	///HACKHACKHACK
-	gameScreens.push_back(new GameScreen());
-	gameScreens.push_back(new GameScreen());
-	gameScreens.push_back(HealthBar::createHealthBar(Vector2f(10, 10), 100));
+	gameScreens.push_back(new GameScreen()); //Splash
+	gameScreens.push_back(new GameScreen()); //Main
+	gameScreens.push_back(HealthBar::createHealthBar(Vector2f(10, 10), 100)); //HealthBar
+	gameScreens.push_back(new GameScreen()); //End
 
-	string str1 ("assets/lvl1.txt");
-	string str2 ("assets/ash.txt");
-	ObjectFactory::loadFile(str1, gameScreens[0]);
-	ObjectFactory::loadFile(str2, gameScreens[1]);
+	string strSplash ("assets/splash.txt");
+	string strMain ("assets/lvl1.txt");
+	string strAsh ("assets/ash.txt");
+	string strEnd ("assets/end.txt");
+
+	ObjectFactory::loadFile(strSplash, gameScreens[0]);
+	ObjectFactory::loadFile(strMain, gameScreens[1]);
+	ObjectFactory::loadFile(strAsh, gameScreens[2]);
+	ObjectFactory::loadFile(strEnd, gameScreens[3]);
+
+	gameScreens[1]->enableDraw = false; gameScreens[1]->enableUpdate = false;
+	gameScreens[2]->enableDraw = false; gameScreens[2]->enableUpdate = false;
+	gameScreens[3]->enableDraw = false; gameScreens[3]->enableUpdate = false;
 }
 
 //Clean up resources
@@ -83,7 +93,7 @@ void draw()
 	
 	window->Display();
 	
-	//window->Capture().SaveToFile("screenshot.png");
+	window->Capture().SaveToFile("screenshot.png");
 }
 
 float dot(const Vector2f &v1, const Vector2f &v2)
