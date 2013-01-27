@@ -35,6 +35,11 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			continue;
 			}
 
+		if (strcmp("splashcontroller", name) == 0) {
+			gs->gameObjects.push_back(new SplashController(x));
+			continue;
+			}
+
 		if (strcmp("deathplatform", name) == 0) {
 			int width, height;
 			float damage, scale;

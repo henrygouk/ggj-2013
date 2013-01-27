@@ -328,7 +328,18 @@ void PlayerObject::update()
 		velocity.x = 0;
 	}
 
+	if (HealthBar::getHealthBar()->currentHealth <= 0) 
+	{
+		gameScreens[1]->enableDraw = true;
+		gameScreens[1]->enableUpdate = false;
+		gameScreens[2]->enableDraw = true;
+		gameScreens[2]->enableUpdate = false;
+		gameScreens[3]->enableDraw = true;
+		gameScreens[3]->enableUpdate = true;
+	}
+
 	position += velocity * DELTA_TIME;
+
 }
 
 void PlayerObject::draw()

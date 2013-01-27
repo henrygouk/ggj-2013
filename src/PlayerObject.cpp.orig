@@ -14,10 +14,12 @@
 #define FACING_RIGHT -1 
 #define FACING_LEFT 1
 
-#define FART_JUMP_CD 1.2
+#define FART_JUMP_CD 0.5
 
 #include <iostream>
 #include <sstream>
+#include <stdlib.h>
+#include <time.h>
 
 using namespace std;
 using namespace sf;
@@ -51,16 +53,18 @@ PlayerObject::PlayerObject(GameScreen* gs, Vector2f pos)
 
 	boundingBoxXoffset = 0;
 	boundingBoxSize = Vector2f(BOUNDINGBOX_WIDTH, BOUNDINGBOX_HEIGHT);
-<<<<<<< HEAD
+
+	bloodSpawnXChange = 0;
+	bloodSpawnCountDown = 0;
 	
 	shootingFlag = false;
 	shootTimer.Reset();
-=======
-
 	ctrlDown = false;
 	facingDirection = FACING_RIGHT;
 	jumpCoolDown = 0.0;
->>>>>>> 0417780f028fcfaf89bc56edd4d53d243ba9b9d5
+
+	enemyCollidable = true;
+	enemyCollidableCoolDown = 0;
 }
 
 void PlayerObject::update()
@@ -124,13 +128,17 @@ void PlayerObject::update()
 	else if(shootingFlag && !window->GetInput().IsKeyDown(Key::Space))
 	{
 		shootingFlag = false;
-		float t = min(shootTimer.GetElapsedTime(), 1.0f);
-		parent->gameObjects.push_back(new BloodSquirt(parent, position + Vector2f(flipped ? 20.0 : -20.0, -55.0 - 8.0 * cosf(min(2.0 * M_PI, (2.5f * M_PI * (float)imageIndex) / (float)ANIMATION_IMAGE_COUNT))), t, flipped));
+		float t = min(shootTimer.GetElapsedTime(), 0.5f);
+		Vector2f offset = Vector2f(flipped ? 20.0 : -20.0, -48.0 - 5.0 * cosf(min(2.0 * M_PI, (2.5f * M_PI * (float)imageIndex) / (float)ANIMATION_IMAGE_COUNT)));
+		parent->gameObjects.push_back(new BloodSquirt(parent, position + offset + Vector2f(-10.0, 0.0), t, flipped));
+		offset.x *= 2.6f;
+		offset.y += 15.0f;
+		parent->gameObjects.push_back(new BloodFart(parent, this, offset, flipped ? 1 : 0, 0, 0.5f));
 	}
 	
-	if(shootingFlag && shootTimer.GetElapsedTime() < 1.0f)
+	if(shootingFlag && shootTimer.GetElapsedTime() < 0.5f)
 	{
-		HealthBar::getHealthBar()->addHealth(-30.0 * DELTA_TIME);
+		HealthBar::getHealthBar()->addHealth(-60.0 * DELTA_TIME);
 	}
 
 	if(window->GetInput().IsKeyDown(Key::Up) || window->GetInput().IsKeyDown(Key::W)) 
@@ -143,7 +151,6 @@ void PlayerObject::update()
 		if (velocity.y == 0.0 && position.y < 500.0)
 			position.y += 1.0;
 	}
-
 
 	if (window->GetInput().IsKeyDown(Key::LControl) && !ctrlDown && jumpCoolDown <= 0) 
 	{
@@ -172,31 +179,137 @@ void PlayerObject::update()
 	velocity.y += GRAVITY * SPEED * DELTA_TIME;
 
 	Platform* snapped = NULL;
-
 	for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
 	{
 		Platform* obj = dynamic_cast<Platform*>(*it);
+		DeathPlatform* dobj = dynamic_cast<DeathPlatform*>(*it);
 
-		if (!obj) continue;
-
-		if (boundingBoxLeft() < obj->left()) continue;
-		if (boundingBoxRight() > obj->right()) continue;
-
-		if (boundingBoxBottom() <= obj->top() && boundingBoxBottom() + velocity.y * DELTA_TIME >= obj->top()) 
+		if (obj)
 		{
-			snapped = obj;
-			position.y = obj->top();
-			velocity.y = 0;
-			break;
+			if (boundingBoxLeft() < obj->left()) continue;
+			if (boundingBoxRight() > obj->right()) continue;
+
+			if (boundingBoxBottom() <= obj->top() && boundingBoxBottom() + velocity.y * DELTA_TIME >= obj->top()) 
+			{
+				snapped = obj;
+				position.y = obj->top();
+
+				if (velocity.y > 20 * GRAVITY * SPEED * DELTA_TIME)
+					parent->gameObjects.push_back(new BloodContact(parent, snapped, Vector2f(boundingBoxHMiddle(), boundingBoxBottom()), 4));
+
+				velocity.y = 0;
+			}
+			
+			if(boundingBoxBottom() < obj->top())
+			{
+				continue;
+			}
+
+			if (dobj) 
+			{
+				HealthBar::getHealthBar()->addHealth(-1 * dobj->damage * DELTA_TIME);
+				if (bloodSpawnCountDown > 0.5) bloodSpawnCountDown = 0.5;
+			}
+
+			
+			continue;
+		}
+		
+		HealthPack *hp = dynamic_cast<HealthPack *>(*it);
+		
+		if(hp)
+		{
+			Vector2f ab = hp->position - (position - Vector2f(0.0f, 35.0f));
+			
+			if(sqrtf(dot(ab, ab)) < 30.0f)
+			{
+				if(hp->health)
+				{
+					HealthBar::getHealthBar()->addHealth(20.0);
+				
+					for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
+					{
+						if (*it == hp) 
+						{
+							parent->gameObjects.erase(it);
+							delete hp;
+						
+							break;
+						}
+					}
+				}
+				else
+				{
+					hp->remaining = 12.0;
+					HealthBar::getHealthBar()->changeHealth = false;
+				}
+			}
 		}
 	}
 
-	position += velocity * DELTA_TIME;
-	if (snapped) position += snapped->velocity * DELTA_TIME;
+	bloodSpawnCountDown -= 3 * DELTA_TIME;
+
+	float absVelocity = velocity.x > 0 ? velocity.x * DELTA_TIME : -velocity.x * DELTA_TIME;
+	bloodSpawnXChange += absVelocity;
+
+	if (snapped) 
+	{
+		position += snapped->velocity * DELTA_TIME;
+
+		if (bloodSpawnCountDown < 0 || bloodSpawnXChange > 15)
+		{
+			float mid = boundingBoxHMiddle();
+			if (mid - 10 > snapped->left() && mid + 10 < snapped->right()) 
+			{
+				int imageIdx = rand() % 4;
+				parent->gameObjects.push_back(new BloodContact(parent, snapped, Vector2f(mid, boundingBoxBottom()), imageIdx));
+				bloodSpawnCountDown = 1;
+				bloodSpawnXChange = 0;
+			}
+		}
+
+		
+
+	}
+
+	if (enemyCollidable) 
+	{
+		if(HealthBar::getHealthBar()->changeHealth)
+		{
+			for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
+			{
+				Enemy* obj = dynamic_cast<Enemy*>(*it);
+
+				if (!obj) continue;
+
+				if (boundingBoxLeft() < obj->left()) continue;
+				if (boundingBoxRight() > obj->right()) continue;
+				if (boundingBoxBottom() < obj->top()) continue;
+				if (boundingBoxTop() > obj->bottom()) continue;
+
+				enemyCollidableCoolDown = 3;
+				enemyCollidable = false;
+
+				velocity = velocity * -1.2f;
+				velocity = velocity + obj->velocity;
+
+				position += velocity * DELTA_TIME;	
+			
+				HealthBar::getHealthBar()->addHealth(-20);
+				break;
+			}
+		}
+	}
+		else
+	{
+		enemyCollidableCoolDown -= DELTA_TIME;
+		if (enemyCollidableCoolDown <= 0) enemyCollidable = true;
+	}
 	
 	parent->cameraPosition.x = (int)(position.x - (float)window->GetWidth() / 2.0f);
 
 	imageAnimationSpeed = (velocity.x == 0) ? ANIMATION_SPEED_IDLE : ANIMATION_SPEED_MOVING;
+	imageAnimationSpeed = abs(velocity.x) > SPEED * 2.0f ? ANIMATION_SPEED_MOVING * 5.0f : imageAnimationSpeed;
 
 	if (velocity.y == 0 || imageIndex != 0)
 		imageAnimationPos += imageAnimationSpeed * DELTA_TIME;
@@ -208,15 +321,43 @@ void PlayerObject::update()
 	}
 	
 	position.x = max(position.x, 0.0f);
+	
+	if(position.y > 800)
+	{
+		HealthBar::getHealthBar()->setHealthTo(0);
+		velocity.x = 0;
+	}
+
+<<<<<<< HEAD
+	if (HealthBar::getHealthBar()->currentHealth <= 0) 
+	{
+		gameScreens[1]->enableDraw = true;
+		gameScreens[1]->enableUpdate = false;
+		gameScreens[2]->enableDraw = true;
+		gameScreens[2]->enableUpdate = false;
+		gameScreens[3]->enableDraw = true;
+		gameScreens[3]->enableUpdate = true;
+	}
+
+=======
+	position += velocity * DELTA_TIME;
+>>>>>>> 94655bd8cca2a5c2041dc2ffda005ebcff89127e
 }
 
 void PlayerObject::draw()
 {
 	sprite.SetImage(images[imageIndex]);
 	sprite.SetPosition(parent->normaliseCoords(position));
+
+	if (enemyCollidable) 
+		sprite.SetColor(Color(255, 255, 255, 255));
+	else
+		sprite.SetColor(Color(255, 255, 255, 128));
+
 	window->Draw(sprite);
 }
 
+inline float PlayerObject::boundingBoxHMiddle() { return boundingBoxLeft() + (boundingBoxRight() - boundingBoxLeft()) / 2; } 
 inline float PlayerObject::boundingBoxLeft() { return position.x + boundingBoxXoffset; } 
 inline float PlayerObject::boundingBoxRight() { return position.x + boundingBoxXoffset + boundingBoxSize.x; } 
 inline float PlayerObject::boundingBoxTop() { return position.y + boundingBoxSize.y; } 
