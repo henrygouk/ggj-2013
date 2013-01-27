@@ -66,6 +66,7 @@ staticplatform 6600 385 0 35 assets/Stretcher.png
 healthpack 6700 340
 pit 6800 500 400 100
 staticplatform 7135 500 10000 0 null
+uberpack 7150 450
 deathplatform 7200 500 75 50 10 assets/Needles.png 0.4
 deathplatform 7275 500 75 50 10 assets/Needles.png 0.4
 deathplatform 7350 500 75 50 10 assets/Needles.png 0.4
@@ -82,6 +83,22 @@ deathplatform 8100 500 75 50 10 assets/Needles.png 0.4
 deathplatform 8175 500 75 50 10 assets/Needles.png 0.4
 deathplatform 8250 500 75 50 10 assets/Needles.png 0.4
 deathplatform 8325 500 75 50 10 assets/Needles.png 0.4
+deathplatform 8400 500 75 50 10 assets/Needles.png 0.4
+deathplatform 8475 500 75 50 10 assets/Needles.png 0.4
+deathplatform 8550 500 75 50 10 assets/Needles.png 0.4
+deathplatform 8625 500 75 50 10 assets/Needles.png 0.4
+deathplatform 8700 500 75 50 10 assets/Needles.png 0.4
+deathplatform 8775 500 75 50 10 assets/Needles.png 0.4
+deathplatform 8850 500 75 50 10 assets/Needles.png 0.4
+deathplatform 8925 500 75 50 10 assets/Needles.png 0.4
+deathplatform 9000 500 75 50 10 assets/Needles.png 0.4
+deathplatform 9075 500 75 50 10 assets/Needles.png 0.4
+deathplatform 9150 500 75 50 10 assets/Needles.png 0.4
+deathplatform 9225 500 75 50 10 assets/Needles.png 0.4
+deathplatform 9300 500 75 50 10 assets/Needles.png 0.4
+deathplatform 9375 500 75 50 10 assets/Needles.png 0.4
+deathplatform 9450 500 75 50 10 assets/Needles.png 0.4
+deathplatform 9525 500 75 50 10 assets/Needles.png 0.4
 enemy 7400 500 7600 500
 enemy 7500 500 7700 500
 enemy 7600 500 7800 500
@@ -91,4 +108,13 @@ enemy 7900 500 8100 500
 enemy 8000 500 8200 500
 enemy 8100 500 8300 500
 enemy 8200 500 8400 500
+enemy 8300 500 8500 500
+enemy 8400 500 8600 500
+enemy 8500 500 8700 500
+enemy 8600 500 8800 500
+enemy 8700 500 8900 500
+enemy 8800 500 9000 500
+enemy 8900 500 9100 500
+enemy 9000 500 9200 500
+enemy 9100 500 9300 500
 player 50 500
