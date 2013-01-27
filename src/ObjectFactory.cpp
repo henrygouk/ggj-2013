@@ -35,6 +35,21 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			continue;
 			}
 
+		if (strcmp("deathplatform", name) == 0) {
+			int width, height;
+			float damage, scale;
+			string filename;
+
+			fIn >> width;
+			fIn >> height;
+			fIn >> damage;
+			fIn >> filename;
+			fIn >> scale;
+
+			gs->gameObjects.push_back(new DeathPlatform(gs, Vector2f(x, y), Vector2f(width, height), damage, filename, scale));
+			continue;
+			}
+
 		if (strcmp("movingplatform", name) == 0) {
 			int width, height;
 			float xend, yend, speed;
