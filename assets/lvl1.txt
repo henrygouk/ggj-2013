@@ -1,4 +1,4 @@
-14
+15
 background 0 0 assets/wall.png 255
 background 0 500 assets/Floor.png 255
 background 0 500 assets/FloorMerger.png 255
@@ -10,6 +10,7 @@ movingplatform 1900 377 0 10 2100 377 100 assets/Trolly.png
 staticplatform -50 500 695 0 null
 pit 600 500 300 100
 staticplatform 835 500 100000 0 null
-healthpack 500 400
+healthpack 500 450
+uberpack 900 450
 enemy 835 500 1500 500
 player 50 500

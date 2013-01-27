@@ -19,6 +19,7 @@ class HealthBar : public GameScreen
 		float maxHealth;
 		float currentHealth;
 		float targetHealth;
+		bool changeHealth;
 
 		static HealthBar* ref;
 
