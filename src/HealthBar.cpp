@@ -43,6 +43,7 @@ HealthBar::HealthBar(Vector2f pos, int _maxHealth)
 		images.push_back(img);
 	}
 
+	changeHealth = true;
 }
 
 HealthBar* HealthBar::createHealthBar(Vector2f pos, int _maxHealth) 
@@ -65,6 +66,11 @@ void HealthBar::setHealthTo(float h)
 
 void HealthBar::addHealth(float h)
 {
+	if(!changeHealth)
+	{
+		return;
+	}
+
 	targetHealth = currentHealth + h;
 }
 

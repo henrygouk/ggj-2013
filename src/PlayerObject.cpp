@@ -199,6 +199,11 @@ void PlayerObject::update()
 
 				velocity.y = 0;
 			}
+			
+			if(boundingBoxBottom() < obj->top())
+			{
+				continue;
+			}
 
 			if (dobj) 
 			{
@@ -218,16 +223,25 @@ void PlayerObject::update()
 			
 			if(sqrtf(dot(ab, ab)) < 30.0f)
 			{
-				HealthBar::getHealthBar()->addHealth(20.0);
-				
-				for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
+				if(hp->health)
 				{
-					if (*it == hp) 
+					HealthBar::getHealthBar()->addHealth(20.0);
+				
+					for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
 					{
-						parent->gameObjects.erase(it);
-						delete hp;
-						break;
+						if (*it == hp) 
+						{
+							parent->gameObjects.erase(it);
+							delete hp;
+						
+							break;
+						}
 					}
+				}
+				else
+				{
+					hp->remaining = 12.0;
+					HealthBar::getHealthBar()->changeHealth = false;
 				}
 			}
 		}
@@ -237,7 +251,6 @@ void PlayerObject::update()
 
 	float absVelocity = velocity.x > 0 ? velocity.x * DELTA_TIME : -velocity.x * DELTA_TIME;
 	bloodSpawnXChange += absVelocity;
-	position += velocity * DELTA_TIME;
 
 	if (snapped) 
 	{
@@ -261,27 +274,30 @@ void PlayerObject::update()
 
 	if (enemyCollidable) 
 	{
-		for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
+		if(HealthBar::getHealthBar()->changeHealth)
 		{
-			Enemy* obj = dynamic_cast<Enemy*>(*it);
+			for (auto it = parent->gameObjects.begin(); it!=parent->gameObjects.end(); it++) 
+			{
+				Enemy* obj = dynamic_cast<Enemy*>(*it);
 
-			if (!obj) continue;
+				if (!obj) continue;
 
-			if (boundingBoxLeft() < obj->left()) continue;
-			if (boundingBoxRight() > obj->right()) continue;
-			if (boundingBoxBottom() < obj->top()) continue;
-			if (boundingBoxTop() > obj->bottom()) continue;
+				if (boundingBoxLeft() < obj->left()) continue;
+				if (boundingBoxRight() > obj->right()) continue;
+				if (boundingBoxBottom() < obj->top()) continue;
+				if (boundingBoxTop() > obj->bottom()) continue;
 
-			enemyCollidableCoolDown = 3;
-			enemyCollidable = false;
+				enemyCollidableCoolDown = 3;
+				enemyCollidable = false;
 
-			velocity = velocity * -1.2f;
-			velocity = velocity + obj->velocity;
+				velocity = velocity * -1.2f;
+				velocity = velocity + obj->velocity;
 
-			position += velocity * DELTA_TIME;	
+				position += velocity * DELTA_TIME;	
 			
-			HealthBar::getHealthBar()->addHealth(-20);
-			break;
+				HealthBar::getHealthBar()->addHealth(-20);
+				break;
+			}
 		}
 	}
 		else
@@ -309,6 +325,7 @@ void PlayerObject::update()
 	if(position.y > 800)
 	{
 		HealthBar::getHealthBar()->setHealthTo(0);
+		velocity.x = 0;
 	}
 
 	if (HealthBar::getHealthBar()->currentHealth <= 0) 
@@ -320,6 +337,8 @@ void PlayerObject::update()
 		gameScreens[3]->enableDraw = true;
 		gameScreens[3]->enableUpdate = true;
 	}
+
+	position += velocity * DELTA_TIME;
 
 }
 

@@ -106,7 +106,12 @@ void ObjectFactory::loadFile(string filename, GameScreen* gs)
 			}
 			
 		if (strcmp("healthpack", name) == 0) {
-			gs->gameObjects.push_back(new HealthPack(gs, Vector2f(x, y)));
+			gs->gameObjects.push_back(new HealthPack(gs, Vector2f(x, y), true));
+			continue;
+			}
+			
+		if (strcmp("uberpack", name) == 0) {
+			gs->gameObjects.push_back(new HealthPack(gs, Vector2f(x, y), false));
 			continue;
 			}
 		}

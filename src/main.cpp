@@ -93,7 +93,6 @@ void draw()
 	
 	window->Display();
 	
-	window->Capture().SaveToFile("screenshot.png");
 }
 
 float dot(const Vector2f &v1, const Vector2f &v2)

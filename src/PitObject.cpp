@@ -29,8 +29,19 @@ void PitObject::draw()
 {
 	sprite.SetImage(images[0]);
 	sprite.SetPosition(parent->normaliseCoords(position));
-	sprite.SetSubRect(IntRect(0, 0, dimensions.x, dimensions.y));
-	window->Draw(sprite);
+	
+	float x = dimensions.x;
+	
+	while(x > 0.0)
+	{
+		sprite.SetSubRect(IntRect(0, 0, min(300.0f, x), dimensions.y));
+		window->Draw(sprite);
+		
+		x -= 300.0f;
+		sprite.Move(Vector2f(300.0f, 0.0f));
+	}
+	
+	sprite.SetPosition(parent->normaliseCoords(position));
 	
 	sprite.SetImage(images[1]);
 	sprite.Move(Vector2f(-1.0f, 0.0f));
@@ -38,7 +49,6 @@ void PitObject::draw()
 	window->Draw(sprite);
 	
 	sprite.SetImage(images[2]);
-	//sprite.SetPosition(parent->normaliseCoords(position + dimensions - Vector2f(100.0f, 0.0f)));
-	sprite.Move(dimensions - Vector2f(100.0f, 100.0f));
+	sprite.SetPosition(parent->normaliseCoords(position + dimensions - Vector2f(100.0f, 100.0f)));
 	window->Draw(sprite);
 }

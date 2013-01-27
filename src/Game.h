@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstddef>
 #include <iostream>
+#include <cfloat>
 #include <vector>
 
 #include <SFML/Graphics.hpp>
